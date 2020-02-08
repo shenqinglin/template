@@ -33,7 +33,7 @@ class Storage {
    * 取值后无需再多做一次类型转换
    * @param {*} key
    */
-  get (key) {
+  get (key, defaultValue) {
     const data = global[this.storageType].getItem(key)
     if (data) {
       const parsedData = JSON.parse(data)
@@ -45,7 +45,7 @@ class Storage {
         this.del(key)
       }
     }
-    return null
+    return defaultValue
   }
 
   del (key) {

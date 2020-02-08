@@ -2,7 +2,7 @@
   <div>
     <main-container multiple>
       <template slot="title">
-        有没有以下症状
+        近14天有没有以下情况？
       </template>
       <div class="answer-wrapper">
         <div
@@ -10,8 +10,7 @@
           :key="index"
           class="answer"
           :class="{
-            ml50: index % 2 !== 0,
-            mt18: index > 1,
+            mt20: index > 0,
             selected: selectedAnswer[item.value],
             around: selectedAnswer[item.value]
           }"
@@ -28,7 +27,7 @@
       <div
         class="no-one"
         :class="{
-          selected: selectedAnswer['L']
+          selected: selectedAnswer['E']
         }"
         @click="handleNoOneClick"
       >
@@ -37,39 +36,23 @@
     </main-container>
     <div class="operate-wrapper">
       <div
-        class="opeator right"
+        class="btn"
         :class="{
-          disabled: !state.toNext
+          disabled: !state.canSubmit
         }"
-        @click="handleToNext"
+        @click="handleSubmit"
       >
-        <v-icon
-          class="icon"
-          name="arrow"
-        />
+        提交
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
-
-const questionMap = {
-  A: [2, 3, 4, 5, 6, 11, 12],
-  B: [11, 12],
-  C: [7, 11, 12],
-  D: [11, 12],
-  E: [11, 12],
-  F: [9, 11, 12],
-  G: [10, 11, 12],
-  H: [11, 12],
-  I: [11, 12],
-  J: [11, 12],
-  K: [8, 11, 12],
-  L: [11, 12]
-}
+import Request from '@/utils/request'
 
 export default {
   components: {
@@ -81,59 +64,34 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '发热'
+          text: '有武汉（湖北）等疫区旅游史或居住史'
         },
         {
           value: 'B',
-          text: '咽喉痛'
+          text: '有接触过武汉（湖北）等疫区的人员'
         },
         {
           value: 'C',
-          text: '咳嗽'
+          text: '有接触过疑似或确诊新型冠状病毒感染者'
         },
         {
           value: 'D',
-          text: '鼻塞'
-        },
-        {
-          value: 'E',
-          text: '流鼻涕'
-        },
-        {
-          value: 'F',
-          text: '胸闷'
-        },
-        {
-          value: 'G',
-          text: '气急'
-        },
-        {
-          value: 'H',
-          text: '呼吸困难'
-        },
-        {
-          value: 'I',
-          text: '全身酸痛'
-        },
-        {
-          value: 'J',
-          text: '乏力'
-        },
-        {
-          value: 'K',
-          text: '腹泻'
+          text: '身边有多人出现发热、乏力、咳嗽、咽痛等'
         }
       ]),
       selectedAnswer: {},
       state: {
-        toNext: false
+        canSubmit: false
       }
     }
+  },
+  computed: {
+    ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   methods: {
     handleItemClick (data) {
       // 删除以上均无
-      this.$delete(this.selectedAnswer, 'L')
+      this.$delete(this.selectedAnswer, 'E')
       const { value } = data
       if (this.selectedAnswer[value]) {
         this.$delete(this.selectedAnswer, value)
@@ -143,35 +101,50 @@ export default {
       this.changeNextBtnStatus()
     },
     handleNoOneClick () {
-      this.selectedAnswer = { L: 'L' }
+      this.selectedAnswer = { E: 'E' }
       this.changeNextBtnStatus()
     },
     changeNextBtnStatus () {
       if (Object.keys(this.selectedAnswer).length === 0) {
-        this.state.toNext = false
+        this.state.canSubmit = false
         return
       }
-      this.state.toNext = true
+      this.state.canSubmit = true
     },
-    handleToNext () {
-      if (Object.keys(this.selectedAnswer).length === 0) {
-        return
-      }
+    handleSubmit () {
       this.$store.commit('SET_ANSWER', {
-        qNo: 1,
+        qNo: 12,
         answer: this.selectedAnswer
       })
-      this.generateQuestionQueue()
-    },
-    generateQuestionQueue () {
-      let allQuestion = []
-      Object.keys(this.selectedAnswer).forEach((q) => {
-        allQuestion = allQuestion.concat(questionMap[q])
+      const result = this.calcResult()
+
+      Request.get('/wx/selfTest/submit', {
+        data: {
+          content: JSON.stringify({ ...this.answer }),
+          result: result
+        }
       })
-      const queue = Array.from(new Set([...allQuestion])).sort((a, b) => a - b)
-      this.$store.commit('SET_QUEUE', queue)
-      this.$store.commit('SET_INDEX', 0)
-      this.$router.replace({ name: `q${queue[0]}` })
+
+      this.$router.replace({ name: 'result', query: { result }})
+    },
+    calcResult () {
+      let result = -1
+      const q1 = Object.keys(this.answer[1])
+      const q12 = Object.keys(this.answer[12])
+      if (q1.indexOf('L') === -1) {
+        if (q12.indexOf('E') === -1) {
+          result = 1
+        } else {
+          result = 2
+        }
+      } else {
+        if (q12.indexOf('E') === -1) {
+          result = 3
+        } else {
+          result = 4
+        }
+      }
+      return result
     }
   }
 }
@@ -179,12 +152,11 @@ export default {
 
 <style lang="less" scoped>
   .answer-wrapper {
-    display: flex;
-    flex-wrap: wrap;
     transition: all 0.2s ease;
+    padding-top: 40px;
     .answer {
-      width: 250px;
-      height: 84px;
+      width: 565px;
+      height: 126px;
       background: rgba(83,185,245,0.04);
       border-radius: 10px;
       font-size:30px;
@@ -200,6 +172,7 @@ export default {
 
       .answer-text {
         float: left;
+        width: 420px;
         margin-top: 21px;
         margin-left: 40px;
       }
@@ -208,20 +181,16 @@ export default {
         color: #53B9F5;
         float: right;
         margin-right: 26px;
-        margin-top: 26px;
+        margin-top: 47px;
       }
     }
 
-    .ml50 {
-      margin-left: 50px;
-    }
-
-    .mt18 {
-      margin-top: 18px;
+    .mt20 {
+      margin-top: 20px;
     }
   }
   .no-one {
-    margin-top: 50px;
+    margin-top: 80px;
     font-size: 30px;
     font-weight: 400px;
     color: #999;
@@ -234,20 +203,20 @@ export default {
 
 .operate-wrapper {
   padding-top: 50px;
-  .opeator {
-    height: 84px;
-    width: 84px;
-    border-radius: 42px;
-    background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  .btn {
+    width:230px;
+    height:84px;
+    background:rgba(255,255,255,1);
+    border-radius:42px;
+    font-size:30px;
+    font-weight: 600;
+    color: #53B9F5;
     display: flex;
     justify-content: center;
     align-items: center;
-    .icon {
-      color: #53B9F5;
-      &.rotate{
-        transform: rotate(180deg);
-      }
-    }
+    margin: 0 auto;
 
     &.disabled {
       opacity: 0.3;

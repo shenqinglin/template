@@ -1,8 +1,8 @@
 <template>
   <div>
-    <main-container multiple>
+    <main-container type="small">
       <template slot="title">
-        有没有以下症状
+        吃完退热药后的体温情况是？
       </template>
       <div class="answer-wrapper">
         <div
@@ -10,34 +10,33 @@
           :key="index"
           class="answer"
           :class="{
-            ml50: index % 2 !== 0,
-            mt18: index > 1,
-            selected: selectedAnswer[item.value],
-            around: selectedAnswer[item.value]
+            mt50: index > 0,
+            selected: selectedAnswer === item.value,
+            around: selectedAnswer === item.value
           }"
           @click="handleItemClick(item, index)"
         >
           <span class="answer-text">{{ item.text }}</span>
           <v-icon
-            v-show="selectedAnswer[item.value]"
+            v-show="selectedAnswer === item.value"
             class="icon"
             name="checked"
           />
         </div>
       </div>
-      <div
-        class="no-one"
-        :class="{
-          selected: selectedAnswer['L']
-        }"
-        @click="handleNoOneClick"
-      >
-        以上均无
-      </div>
     </main-container>
     <div class="operate-wrapper">
       <div
-        class="opeator right"
+        class="opeator"
+        @click="handleToLast"
+      >
+        <v-icon
+          class="icon rotate"
+          name="arrow"
+        />
+      </div>
+      <div
+        class="opeator"
         :class="{
           disabled: !state.toNext
         }"
@@ -53,23 +52,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
-
-const questionMap = {
-  A: [2, 3, 4, 5, 6, 11, 12],
-  B: [11, 12],
-  C: [7, 11, 12],
-  D: [11, 12],
-  E: [11, 12],
-  F: [9, 11, 12],
-  G: [10, 11, 12],
-  H: [11, 12],
-  I: [11, 12],
-  J: [11, 12],
-  K: [8, 11, 12],
-  L: [11, 12]
-}
 
 export default {
   components: {
@@ -81,97 +66,59 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '发热'
+          text: '体温下降'
         },
         {
           value: 'B',
-          text: '咽喉痛'
+          text: '体温下降又升高'
         },
         {
           value: 'C',
-          text: '咳嗽'
-        },
-        {
-          value: 'D',
-          text: '鼻塞'
-        },
-        {
-          value: 'E',
-          text: '流鼻涕'
-        },
-        {
-          value: 'F',
-          text: '胸闷'
-        },
-        {
-          value: 'G',
-          text: '气急'
-        },
-        {
-          value: 'H',
-          text: '呼吸困难'
-        },
-        {
-          value: 'I',
-          text: '全身酸痛'
-        },
-        {
-          value: 'J',
-          text: '乏力'
-        },
-        {
-          value: 'K',
-          text: '腹泻'
+          text: '体温没有下降'
         }
       ]),
-      selectedAnswer: {},
+      selectedAnswer: null,
       state: {
         toNext: false
       }
     }
   },
+  computed: {
+    ...mapGetters(['currentIndex', 'queue'])
+  },
   methods: {
     handleItemClick (data) {
-      // 删除以上均无
-      this.$delete(this.selectedAnswer, 'L')
       const { value } = data
-      if (this.selectedAnswer[value]) {
-        this.$delete(this.selectedAnswer, value)
-      } else {
-        this.$set(this.selectedAnswer, value, value)
-      }
-      this.changeNextBtnStatus()
-    },
-    handleNoOneClick () {
-      this.selectedAnswer = { L: 'L' }
+      this.selectedAnswer = value
       this.changeNextBtnStatus()
     },
     changeNextBtnStatus () {
-      if (Object.keys(this.selectedAnswer).length === 0) {
-        this.state.toNext = false
-        return
-      }
-      this.state.toNext = true
+      this.state.toNext = this.selectedAnswer !== null
     },
     handleToNext () {
-      if (Object.keys(this.selectedAnswer).length === 0) {
+      if (!this.selectedAnswer) {
         return
       }
       this.$store.commit('SET_ANSWER', {
-        qNo: 1,
+        qNo: 6,
         answer: this.selectedAnswer
       })
-      this.generateQuestionQueue()
+      const index = this.currentIndex + 1
+      if (index === this.queue.length) {
+        // GOTO Result
+      } else {
+        this.$router.replace({ name: `q${this.queue[index]}` })
+        this.$store.commit('SET_INDEX', index)
+      }
     },
-    generateQuestionQueue () {
-      let allQuestion = []
-      Object.keys(this.selectedAnswer).forEach((q) => {
-        allQuestion = allQuestion.concat(questionMap[q])
-      })
-      const queue = Array.from(new Set([...allQuestion])).sort((a, b) => a - b)
-      this.$store.commit('SET_QUEUE', queue)
-      this.$store.commit('SET_INDEX', 0)
-      this.$router.replace({ name: `q${queue[0]}` })
+    handleToLast () {
+      const index = this.currentIndex - 1
+      this.$store.commit('SET_INDEX', index)
+      if (index === -1) {
+        this.$router.replace({ name: 'q1' })
+      } else {
+        this.$router.replace({ name: `q${this.queue[index]}` })
+      }
     }
   }
 }
@@ -179,11 +126,10 @@ export default {
 
 <style lang="less" scoped>
   .answer-wrapper {
-    display: flex;
-    flex-wrap: wrap;
     transition: all 0.2s ease;
+    padding-top: 40px;
     .answer {
-      width: 250px;
+      width: 565px;
       height: 84px;
       background: rgba(83,185,245,0.04);
       border-radius: 10px;
@@ -212,12 +158,8 @@ export default {
       }
     }
 
-    .ml50 {
-      margin-left: 50px;
-    }
-
-    .mt18 {
-      margin-top: 18px;
+    .mt50 {
+      margin-top: 50px;
     }
   }
   .no-one {
@@ -234,6 +176,8 @@ export default {
 
 .operate-wrapper {
   padding-top: 50px;
+  display: flex;
+  justify-content: space-between;
   .opeator {
     height: 84px;
     width: 84px;
@@ -244,7 +188,7 @@ export default {
     align-items: center;
     .icon {
       color: #53B9F5;
-      &.rotate{
+      &.rotate {
         transform: rotate(180deg);
       }
     }
