@@ -3,12 +3,13 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Request from '@/utils/request'
+import routes from './routes'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.NODE_ENV !== 'development' ? '/activity' : '/',
-  routes: [],
+  routes,
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition

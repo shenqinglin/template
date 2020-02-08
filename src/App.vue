@@ -1,19 +1,67 @@
 <template>
   <div id="app">
-    test
+    <router-view />
   </div>
 </template>
 
 <script>
-import { isWechat } from '@/utils'
-import Request from '@/utils/request'
-
+// import TransitionView from '@/components/TransitionView'
+// import { getAccreditStatus } from '@/api/login'
+// import { NO_NEED_ACCREDIT } from '@/constants'
+import { handleIosInput } from '@/utils'
 export default {
+  components: {
+    // TransitionView
+  },
   mounted () {
-    if (isWechat() && process.env.CURRENT_ENV !== 'dev') {
-      Request.get('/wx/wechat/config').then((data) => {
-        console.log(data)
-      })
+    // const currentUrl = window.location.pathname
+    // const noNeedAccredit = Object.freeze(NO_NEED_ACCREDIT)
+    // if (noNeedAccredit.indexOf(currentUrl) === -1) {
+    //   // 微信授权
+    //   getAccreditStatus()
+    // }
+    // ios input
+    handleIosInput()
+    // // 禁用IOS橡皮筋效果
+    // this.$nextTick(() => {
+    //   let startY = 0
+    //   document.body.addEventListener('touchstart', (e) => {
+    //     startY = e.touches[0].pageY
+    //   }, { passive: false })
+
+    //   document.body.addEventListener('touchmove', (e) => {
+    //     const scrollBox = document.querySelector('.content-container')
+    //     const moveY = e.touches[0].pageY
+    //     const top = scrollBox.scrollTop
+    //     const ch = scrollBox.clientHeight
+    //     const sh = scrollBox.scrollHeight
+    //     if (!this.isChildTarget(e.target, scrollBox)) {
+    //       e.preventDefault()
+    //     } else if ((top === 0 && moveY > startY) || (top + ch === sh && moveY < startY)) {
+    //       e.preventDefault()
+    //     }
+    //   }, { passive: false })
+    // })
+  },
+  methods: {
+    isChildTarget (child, parent, justChild = false) {
+      // justChild为true则只判断是否为子元素，若为false则判断是否为本身或者子元素 默认为false
+      let parentNode
+      if (justChild) {
+        parentNode = child.parentNode
+      } else {
+        parentNode = child
+      }
+
+      if (child && parent) {
+        while (parentNode) {
+          if (parent === parentNode) {
+            return true
+          }
+          parentNode = parentNode.parentNode
+        }
+      }
+      return false
     }
   }
 }
@@ -37,7 +85,7 @@ export default {
   font-size: 14px;
   color: #666;
   height: 100vh;
-  background: #fff;
+  background-color: #53b9f5;
 }
 .grey{
   color: #ccc;
