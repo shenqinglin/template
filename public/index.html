@@ -26,37 +26,5 @@
 
     <script type="text/javascript" src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=MPLDh43ep6RwUAKwEMKfPmfHNk5qb5KG"></script>
-    <script>
-      function onBridgeReady() {
-          WeixinJSBridge.call('hideOptionMenu');
-      }
-
-      if (typeof WeixinJSBridge == "undefined") {
-          if (document.addEventListener) {
-              document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-          } else if (document.attachEvent) {
-              document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-              document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-          }
-      } else {
-          onBridgeReady();
-      }
-      // document.addEventListener('WeixinJSBridgeReady', function () {
-      //   parent.WeixinJSBridge.call('hideOptionMenu')
-      // }, false)
-    </script>
-    <!-- 腾讯统计 -->
-    <script>
-      var _mtac = {"performanceMonitor":1,"senseQuery":1};
-      (function() {
-        var mta = document.createElement("script");
-        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
-        mta.setAttribute("name", "MTAH5");
-        mta.setAttribute("sid", "500705235");
-        mta.setAttribute("cid", "500705237");
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(mta, s);
-      })();
-    </script>
   </body>
 </html>

@@ -17,7 +17,13 @@ const mutations = {
   },
   SET_ANSWER: (state, payload) => {
     state.answer[payload.qNo] = payload.answer
-    Session.set('__answer', payload)
+    Session.set('__answer', { ...state.answer })
+  },
+  RESET: () => {
+    state.queue = []
+    state.currentIndex = -1
+    state.answer = {}
+    Session.clear()
   }
 }
 

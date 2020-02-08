@@ -33,11 +33,6 @@
       <div class="footer-risk">
         风险提示：本测试及测试结果仅供参考，不能代替医生面诊，不能作为诊断及诊疗的依据，请您根据自身情况及时线下就医。
       </div>
-      <div class="footer-tip">
-        <span class="left tip">北京市卫生健康委员会</span>
-        <span class="center tip" />
-        <span class="right tip">北京市预约挂号统一平台</span>
-      </div>
     </div>
   </div>
 </template>
@@ -116,7 +111,7 @@ export default {
   .result-wrap {
     padding: 160px 50px 0px;
     background: #53B9F5;
-    background: url('~@/../../../../public/background.png') no-repeat left top;
+    background: url('~@/assests/img/bg.png') no-repeat left top;
     background-size: contain;
     .main-contiainer {
       height: 870px;
@@ -176,22 +171,6 @@ export default {
       .footer-risk {
         font-size: 22px;
 
-      }
-      .footer-tip {
-        margin-top: 62px;
-        font-size: 20px;
-        text-align: center;
-        .tip {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .center {
-          height: 28px;
-          width: 1PX;
-          background-color: #fff;
-          border: none;
-          margin: 0 20px;
-        }
       }
     }
     .main-contiainer {

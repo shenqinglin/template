@@ -1,71 +1,13 @@
 <template>
   <div id="app">
     <router-view />
+    <div class="footer-tip">
+      <span class="left tip">北京市卫生健康委员会</span>
+      <span class="center tip" />
+      <span class="right tip">北京市预约挂号统一平台</span>
+    </div>
   </div>
 </template>
-
-<script>
-// import TransitionView from '@/components/TransitionView'
-// import { getAccreditStatus } from '@/api/login'
-// import { NO_NEED_ACCREDIT } from '@/constants'
-import { handleIosInput } from '@/utils'
-export default {
-  components: {
-    // TransitionView
-  },
-  mounted () {
-    // const currentUrl = window.location.pathname
-    // const noNeedAccredit = Object.freeze(NO_NEED_ACCREDIT)
-    // if (noNeedAccredit.indexOf(currentUrl) === -1) {
-    //   // 微信授权
-    //   getAccreditStatus()
-    // }
-    // ios input
-    handleIosInput()
-    // // 禁用IOS橡皮筋效果
-    // this.$nextTick(() => {
-    //   let startY = 0
-    //   document.body.addEventListener('touchstart', (e) => {
-    //     startY = e.touches[0].pageY
-    //   }, { passive: false })
-
-    //   document.body.addEventListener('touchmove', (e) => {
-    //     const scrollBox = document.querySelector('.content-container')
-    //     const moveY = e.touches[0].pageY
-    //     const top = scrollBox.scrollTop
-    //     const ch = scrollBox.clientHeight
-    //     const sh = scrollBox.scrollHeight
-    //     if (!this.isChildTarget(e.target, scrollBox)) {
-    //       e.preventDefault()
-    //     } else if ((top === 0 && moveY > startY) || (top + ch === sh && moveY < startY)) {
-    //       e.preventDefault()
-    //     }
-    //   }, { passive: false })
-    // })
-  },
-  methods: {
-    isChildTarget (child, parent, justChild = false) {
-      // justChild为true则只判断是否为子元素，若为false则判断是否为本身或者子元素 默认为false
-      let parentNode
-      if (justChild) {
-        parentNode = child.parentNode
-      } else {
-        parentNode = child
-      }
-
-      if (child && parent) {
-        while (parentNode) {
-          if (parent === parentNode) {
-            return true
-          }
-          parentNode = parentNode.parentNode
-        }
-      }
-      return false
-    }
-  }
-}
-</script>
 
 <style lang="less">
 @import '~@/assests/styles/common.less';
@@ -90,5 +32,27 @@ export default {
 .grey{
   color: #ccc;
   font-weight: 400;
+}
+
+.footer-tip {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  margin-top: 62px;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+  .tip {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .center {
+    height: 28px;
+    width: 1PX;
+    background-color: #fff;
+    border: none;
+    margin: 0 20px;
+  }
 }
 </style>

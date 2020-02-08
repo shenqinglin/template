@@ -89,7 +89,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentIndex', 'queue'])
+    ...mapGetters(['currentIndex', 'queue', 'answer'])
+  },
+  mounted () {
+    this.selectedAnswer = this.answer[4] || null
+    this.changeNextBtnStatus()
   },
   methods: {
     handleItemClick (data) {

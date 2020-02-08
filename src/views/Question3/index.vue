@@ -17,7 +17,6 @@
           inactive-color="#eee"
           bar-height="0.08rem"
           button-size="0.45333rem"
-          @change="handleChange"
         />
         <div class="desc-wrapper">
           <div>37.3℃</div>
@@ -85,17 +84,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentIndex', 'queue'])
+    ...mapGetters(['currentIndex', 'queue', 'answer'])
+  },
+  mounted () {
+    this.temp = this.answer[3] || 37.5
   },
   methods: {
-    handleChange (data) {
-      const { value } = data
-      this.selectedAnswer = value
-      this.changeNextBtnStatus()
-    },
-    changeNextBtnStatus () {
-      this.state.toNext = this.selectedAnswer !== null
-    },
     handleToNext () {
       this.$store.commit('SET_ANSWER', {
         qNo: 3,

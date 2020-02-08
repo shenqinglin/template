@@ -55,6 +55,7 @@
 <script>
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
+import { mapGetters } from 'vuex'
 
 const questionMap = {
   A: [2, 3, 4, 5, 6, 11, 12],
@@ -129,6 +130,13 @@ export default {
         toNext: false
       }
     }
+  },
+  computed: {
+    ...mapGetters(['answer'])
+  },
+  mounted () {
+    this.selectedAnswer = this.answer[1] || {}
+    this.changeNextBtnStatus()
   },
   methods: {
     handleItemClick (data) {
