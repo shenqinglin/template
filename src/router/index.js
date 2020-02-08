@@ -3,14 +3,12 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Request from '@/utils/request'
-import routes from './routes'
-import { checkLogin } from '@/api/common'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.NODE_ENV !== 'development' ? '/wechat' : '/',
-  routes,
+  base: process.env.NODE_ENV !== 'development' ? '/activity' : '/',
+  routes: [],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -38,17 +36,7 @@ router.beforeEach((to, from, next) => {
   Request.cancel()
   // 进度条
   NProgress.start()
-  if (to.meta.requireAuth) {
-    checkLogin(to.fullPath).then(res => {
-      // 检查登录状态为true时，next,否则重定向到登录页
-      // console.log(res, 'login')
-      next()
-    }).catch(err => {
-      console.log(err)
-    })
-  } else {
-    next()
-  }
+  next()
 })
 
 router.afterEach(() => {
