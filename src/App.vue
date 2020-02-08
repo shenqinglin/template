@@ -6,7 +6,7 @@
 
 <script>
 import { isWechat } from '@/utils'
-import { Request } from '@/utils/request'
+import Request from '@/utils/request'
 
 export default {
   mounted () {
