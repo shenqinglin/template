@@ -1,0 +1,342 @@
+@charset "utf-8";
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	width: 10.8rem;
+	margin: 0 auto;
+}
+
+header{
+	/*height: 2.16rem;*/
+	height: 1.2rem;
+}
+
+.header-img{
+	width: 2.25rem;
+	height: 1.23rem;
+	float: right;
+	/*margin-top: 0.25rem;*/
+	margin-right: 0.73rem;
+	transform: translateY(0.5rem);
+	-webkit-transform: translateY(0.5rem);
+}
+
+.banner{
+	height: 3.06rem;
+	color: #fff;
+}
+
+.banner-top{
+	/*height: 1.09rem;*/
+	height: 1.00rem;
+	/*font-size: 1.02rem;*/
+	font-size: 0.95rem;
+	padding-left: 0.84rem;
+}
+
+.banner-bottom{
+	height: 1.84rem;
+	font-size: 1.79rem;
+	line-height: 1.84rem;
+	padding-left: 0.82rem;
+	margin-top: 0.17rem;
+}
+
+.content{
+	height: 7.0rem;
+	margin-top: 0.16rem;
+	text-align: center;
+	position: relative;
+}
+
+.content-img{
+	height: 6.79rem;
+	width: 9.34rem;
+	opacity: 0.85;
+}
+
+.content-man{
+	width: 0.88rem;
+	height: 1.45rem;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	top: 3.27rem;
+}
+
+.main{
+	height: 2.88rem;
+	width: 8.85rem;
+	/*margin: 0.39rem auto 0.46rem;*/
+	margin: 30px auto 30px;
+	border: 2px dashed #036EB8;
+	padding: 0.27rem 0.45rem 0;
+	font-size: 0.40rem;
+	line-height: 0.55rem;
+	text-align: justify;
+}
+
+footer{
+	height: 1.48rem;
+	width: 10.0rem;
+	margin: 0 auto;
+	font-size: 0.40rem;
+}
+
+.content-img-box{
+	height: 6.79rem;
+	width: 9.34rem;
+	margin: 0 auto;
+	position: relative;
+}
+
+.content-img-box .star{
+	position: absolute;;
+	opacity: 0.3;
+	transition: opacity 0.8s ease;
+	-webkit-transition: opacity 0.8s ease;
+	-moz-transition: opacity 0.8s ease;
+	-ms-transition: opacity 0.8s ease;
+	-o-transition: opacity 0.8s ease;
+	border-radius: 50%;
+}
+
+.star:after{
+	display: block;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: #FFFFFF;
+	content: '';
+	position: absolute;
+	/*box-shadow: 0 0 0.2rem 0.1rem rgba(255,255,255,1),
+	0 0 0.2rem 0.1rem rgba(255,255,255,1),
+	0 0 0.2rem 0.1rem rgba(255,255,255,1),
+	0 0 0.2rem 0.1rem rgba(255,255,255,1);*/
+	box-shadow: 0 0 7px 1px rgba(255,255,255,1),
+	0 0 7px 1px rgba(255,255,255,1),
+	0 0 7px 1px rgba(255,255,255,1),
+	0 0 7px 1px rgba(255,255,255,1);
+}
+
+.content-img-box > span:nth-of-type(1){
+	left: 2.30rem;
+	top: 1.38rem;
+}
+
+.content-img-box > span:nth-of-type(2){
+	left: 4.61rem;
+	top: 1.34rem;
+}
+
+.content-img-box > span:nth-of-type(3){
+	left: 6.95rem;
+	top: 1.39rem;
+}
+
+.content-img-box > span:nth-of-type(4){
+	left: 2.28rem;
+	top: 2.65rem;
+}
+
+.content-img-box > span:nth-of-type(5){
+	left: 4.64rem;
+	top: 2.65rem;
+}
+
+.content-img-box > span:nth-of-type(6){
+	left: 6.97rem;
+	top: 2.65rem;
+}
+
+.content-img-box > span:nth-of-type(7){
+	left: 1.10rem;
+	top: 3.36rem;
+}
+
+.content-img-box > span:nth-of-type(8){
+	left: 3.49rem;
+	top: 3.31rem;
+}
+
+.content-img-box > span:nth-of-type(9){
+	left: 5.78rem;
+	top: 3.31rem;
+}
+
+.content-img-box > span:nth-of-type(10){
+	left: 8.14rem;
+	top: 3.36rem;
+}
+
+.content-img-box > span:nth-of-type(11){
+	left: 3.48rem;
+	top: 4.67rem;
+}
+
+.content-img-box > span:nth-of-type(12){
+	left: 5.77rem;
+	top: 4.65rem;
+}
+
+.content-img-box > span:nth-of-type(13){
+	left:4.64rem;
+	top: 5.34rem;
+}
+
+.content-img-box > span:nth-of-type(2) > img{
+	height: 20px;
+	width: 20px;
+	position: absolute;
+	left: 10px;
+	top: -10px;
+}
+
+.content-img-box > span:nth-of-type(4) > img{
+	height: 30px;
+	position: absolute;
+	left: -30px;
+	top: -10px;
+}
+
+.content-img-box > span:nth-of-type(5) > img{
+	height: 30px;
+	position: absolute;
+	left: -30px;
+	top: -15px;
+}
+
+.content-img-box > span:nth-of-type(6) > img{
+	height: 30px;
+	position: absolute;
+	right: -35px;
+	top: -35px;
+}
+
+.content-img-box > span:nth-of-type(8) > img{
+	height: 20px;
+	position: absolute;
+	left: -30px;
+	top: -10px;
+}
+
+.content-img-box > span:nth-of-type(12) > img{
+	height: 20px;
+	position: absolute;
+	right: -35px;
+	top: -10px;
+}
+
+.content-img-box > span:nth-of-type(13) > img{
+	height: 20px;
+	position: absolute;
+	left: -30px;
+	top: -10px;
+}
+
+.star > p{
+	color: #FFFFFF;
+	width: 0.8rem;
+	height: 0.67rem;
+	font-size: 0.30rem;
+	font-weight: 900;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: -1.1rem;
+	top: -0.35rem;
+	letter-spacing: 0;
+}
+
+.content-img-box > span:nth-of-type(3) > p{
+	left: -1.0rem;
+}
+
+.content-img-box > span:nth-of-type(7) > p{
+	left: -0.4rem;
+	top: 0.2rem;
+}
+
+.content-img-box > span:nth-of-type(11) > p{
+	left: -1.0rem;
+}
+
+@keyframes active-blink{
+	from{
+		opacity: 1;
+	}
+	to{
+		opacity: 0.7;
+	}
+}
+@-webkit-keyframes active-blink{
+	from{
+		opacity: 1;
+	}
+	to{
+		opacity: 0.7;
+	}
+}
+
+/*.active-blink{
+	animation: active-blink 2s 4s ease infinite alternate;
+	-webkit-animation: active-blink 2s 4s ease infinite alternate;
+}*/
+.active-blink-0{
+	animation: active-blink 1s ease infinite alternate;
+	-webkit-animation: active-blink 1s ease infinite alternate;
+}
+.active-blink-1{
+	animation: active-blink 1s 0.5s ease infinite alternate;
+	-webkit-animation: active-blink 1s 0.5s ease infinite alternate;
+}
+.active-blink-2{
+	animation: active-blink 1s 1s ease infinite alternate;
+	-webkit-animation: active-blink 1s 1s ease infinite alternate;
+}
+.active-blink-3{
+	animation: active-blink 1s 1.5s ease infinite alternate;
+	-webkit-animation: active-blink 1s 1.5s ease infinite alternate;
+}
+.active-blink-4{
+	animation: active-blink 1s 2s ease infinite alternate;
+	-webkit-animation: active-blink 1s 2s ease infinite alternate;
+}
+.active-blink-5{
+	animation: active-blink 1s 2.5s ease infinite alternate;
+	-webkit-animation: active-blink 1s 2.5s ease infinite alternate;
+}
+.active-blink-6{
+	animation: active-blink 1s 3s ease infinite alternate;
+	-webkit-animation: active-blink 1s 3s ease infinite alternate;
+}
+.active-blink-7{
+	animation: active-blink 1s 3.5s ease infinite alternate;
+	-webkit-animation: active-blink 1s 3.5s ease infinite alternate;
+}
+.active-blink-8{
+	animation: active-blink 1s 4.0s ease infinite alternate;
+	-webkit-animation: active-blink 1s 4.0s ease infinite alternate;
+}
+.active-blink-9{
+	animation: active-blink 1s 4.5s ease infinite alternate;
+	-webkit-animation: active-blink 1s 4.5s ease infinite alternate;
+}
+.active-blink-10{
+	animation: active-blink 1s 5.0s ease infinite alternate;
+	-webkit-animation: active-blink 1s 5.0s ease infinite alternate;
+}
+.active-blink-11{
+	animation: active-blink 1s 5.5s ease infinite alternate;
+	-webkit-animation: active-blink 1s 5.5s ease infinite alternate;
+}
+.active-blink-12{
+	animation: active-blink 1s 6.0s ease infinite alternate;
+	-webkit-animation: active-blink 1s 6.0s ease infinite alternate;
+}

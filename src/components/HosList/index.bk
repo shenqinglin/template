@@ -1,0 +1,177 @@
+<template>
+  <div
+    ref="box"
+    class="hospital-list"
+  >
+    <div class="hospital-list-bottom">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :immediate-check="false"
+        @load="lodemore"
+      >
+        <div
+          v-for="(item,index) in List"
+          :key="index"
+        >
+          <!--搜索医院列表-->
+          <!-- 两个参数，hospitalId：医院id，查询科室；toUserOpen：是否开放，不开放展示医院维护中 -->
+          <router-link :to="{path:'/department/'+item.code}">
+            <hos-list
+              :hos-detail="{
+                portrait: item.picture,
+                hosId: item.picture,
+                name: item.name,
+                fhTime: item.openTimeText,
+                hospitalLevelName: item.levelText,
+                distance: item.distance,
+              }"
+              :isto-update="item.maintain"
+              class="hos-list-data"
+            />
+          </router-link>
+          <!--搜索医院列表end-->
+        </div>
+      </van-list>
+    </div>
+    <no-search-result
+      v-if="noSearchResults"
+    />
+  </div>
+</template>
+
+<script>
+import HosList from './item'
+import NoSearchResult from '@/components/NoSearchResult'
+import { fetchHospitalList } from '@/api/home'
+import { getLocation } from '@/utils/index'
+import { mapMutations } from 'vuex'
+export default {
+  name: 'HomeNav',
+  components: {
+    HosList,
+    NoSearchResult
+  },
+  props: {
+    keywords: {
+      type: String,
+      default: ''
+    },
+    getAreaId: {
+      type: [String, Number],
+      default: '0'
+    },
+    getSortType: {
+      type: String,
+      default: 'LEVEL'
+    }
+  },
+  data () {
+    return {
+      List: [],
+      loading: false,
+      finished: false,
+      location: {},
+      params: {
+        keywords: '',
+        sortType: 'LEVEL', // LEVEL("按等级"),POSITION("按距离");
+        areaId: '', // 区域id
+        longitude: '', // 经度
+        latitude: '', // 纬度
+        pageNo: 1,
+        pageSize: 10
+      },
+      noSearchResults: false
+    }
+  },
+  computed: {
+  },
+  watch: {
+    keywords: {
+      handler (newValue) {
+        this.params.keywords = this.keywords
+        this.reset()
+      }
+    },
+    getSortType: {
+      handler (newValue) {
+        this.params.sortType = this.getSortType
+        this.reset()
+      }
+    },
+    getAreaId: {
+      handler (newValue) {
+        this.params.areaId = this.getAreaId
+        this.reset()
+      }
+    }
+  },
+  mounted () {
+    this.params.keywords = this.keywords
+    this.getAdd()
+  },
+  methods: {
+    ...mapMutations('home', ['SET_HOME_MIN_HEIGHT']),
+    lodemore () {
+      this.params.pageNo += 1
+      this.getHospitalList()
+    },
+    getAdd () {
+      getLocation().then((res) => {
+        this.params.longitude = res.lng
+        this.params.latitude = res.lat
+        this.getHospitalList()
+      })
+    },
+    getHospitalList () {
+      fetchHospitalList({ ...this.params }).then((res) => {
+        this.loading = false // 关闭加载
+        const result = res.list
+        if (result === null || (result.length === 0 && res.count === 0)) { // 代表原本就没有数据
+          this.$emit('noRsult', true)
+          this.noSearchResults = true
+          this.finished = true
+          return false
+        }
+        this.noSearchResults = false
+        this.List = this.List.concat(result)
+        if (res.count > 0 && result.length === 0) { // 代表数据滚动加载后已没有数据了
+          this.finished = true
+          return false
+        } else {
+          this.finished = false
+        }
+        this.$nextTick(() => { // 获取最小高度
+          const filterWrapper = document.querySelector('.van-sticky')
+          const minHeight = document.body.clientHeight - filterWrapper.offsetHeight
+          this.SET_HOME_MIN_HEIGHT(minHeight)
+        })
+      })
+    },
+    reset () {
+      this.params.pageNo = 1
+      this.List = []
+      this.loading = true
+      this.finished = false
+      this.getHospitalList()
+    }
+  }
+}
+</script>
+<style lang="less" scoped>
+@import '~@/assests/styles/common.less';
+@import '~@/assests/styles/layout.less';
+.hospital-list{
+  .hospital-list-bottom {
+    padding: 0 30px 0;
+    clear: both;
+    .hos-list-data{
+      margin-bottom: 40px;
+    }
+  }
+  /deep/ .van-list__finished-text {
+    font-size: 24px;
+  }
+}
+
+</style>

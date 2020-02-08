@@ -1,0 +1,164 @@
+<template>
+  <v-page
+    :show-header="false"
+  >
+    <div class="login">
+      <h2 class="login-title">
+        输入验证码
+      </h2>
+      <p class="info">
+        <span>验证短信已发送至</span>
+        <span>138 1222 1111</span>
+        <m-icon
+          name="edit"
+          desc="修改"
+        />
+      </p>
+      <van-password-input
+        :mask="false"
+        :value="value"
+        :gutter="20"
+        :focused="showKeyboard"
+        @focus="showKeyboard = true"
+      />
+      <van-number-keyboard
+        :show="showKeyboard"
+        @input="onInput"
+        @delete="onDelete"
+        @blur="showKeyboard = false"
+      />
+    </div>
+    <div
+      :class="btnstyle ? 'bottom-btn blue':'bottom-btn'"
+      @click="loginBtn"
+    >
+      {{ btnMessage }}
+    </div>
+  </v-page>
+</template>
+
+<script>
+import MIcon from '@/components/MIcon'
+export default {
+  components: {
+    MIcon
+  },
+  data () {
+    return {
+      placeholder: '请输入您的手机号码',
+      dataPhone: '',
+      isAgree: true,
+      btnMessage: '获取验证码',
+      btnstyle: false,
+      inputList: [],
+      value: '123',
+      showKeyboard: true
+    }
+  },
+  watch: {
+    // 通过watch来设置空格
+    dataPhone (newValue, oldValue) {
+      this.dataPhone = newValue.length > oldValue.length ? newValue.replace(/\D/g, '').replace(/(\d{3})(\d{0,4})(\d{0,4})/, '$1 $2 $3') : this.dataPhone.trim()
+      if (this.dataPhone.length === 13) {
+        this.btnstyle = true
+      } else {
+        this.btnstyle = false
+      }
+    }
+    // screenWidth (val) {
+    //   if (this.oldscollHeight === this.screenWidth) {
+    //     this.screenWidth = 0
+    //   } else {
+    //     this.screenWidth = val
+    //   }
+    // }
+  },
+  mounted () {
+    // const that = this
+    // window.onresize = () => {
+    //   return (() => {
+    //     window.screenWidth = document.documentElement.clientHeight || document.body.clientWidth
+    //     that.screenWidth = window.screenWidth
+    //   })()
+    // }
+  },
+  methods: {
+    agree () {
+      this.isAgree = !this.isAgree
+    },
+    loginBtn () {
+      if (this.btnstyle) {
+        const phone = this.dataPhone.replace(/\ +/g, '')
+        this.$router.push({ name: 'depSearch', query: {
+          phone: phone
+        }})
+      }
+    },
+    onInput (key) {
+      console.log(key)
+      this.value = (this.value + key).slice(0, 6)
+    },
+    onDelete () {
+      this.value = this.value.slice(0, this.value.length - 1)
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+@import '~@/assests/styles/common.less';
+@import '~@/assests/styles/layout.less';
+.login {
+  margin: 60px;
+  .login-title {
+    height: 65px;
+    font-size: 46px;
+    color: #333;
+    font-weight: bold;
+  }
+  .info{
+    margin-top: 10px;
+    color: #333333;
+    font-size: 24px;
+    span{
+      margin-right: 10px;
+    }
+    .m-icon{
+      color: #5386FF;
+    }
+  }
+  /deep/.van-password-input{
+    margin: 42px 0 0;
+    .van-password-input__security{
+      height: 104px;
+      li{
+        line-height: 104px;
+        border-bottom: 1px solid #DDDDDD;
+        font-size: 40px;
+        color: #5386FF;
+      }
+    }
+  }
+  /deep/.van-number-keyboard{
+    .van-key{
+      height: 100px;
+      line-height: 100px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+  }
+}
+.bottom-btn{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+  overflow: hidden;
+  background: @backgroundColorGray;
+  color: #999;
+  font-size: 32px;
+}
+</style>
