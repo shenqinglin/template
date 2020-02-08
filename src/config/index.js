@@ -1,4 +1,4 @@
-const APP_NAME = 'wechat'
+const APP_NAME = 'activity'
 
 module.exports = {
   APP_NAME,
