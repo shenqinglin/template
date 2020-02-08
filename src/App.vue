@@ -10,9 +10,8 @@ import { isWechat } from '@/utils'
 export default {
   mounted () {
     if (isWechat() && process.env.CURRENT_ENV !== 'dev') {
-      Request.get('/wx/user/get', { customCatch: true }).then(() => {
-        const redirect = window.location.href
-        window.location.href = '/wx/accredit/go?url=' + encodeURI(encodeURI(redirect))
+      Request.get('/wx/wechat/config').then((data) => {
+        console.log(data)
       })
     }
   }
