@@ -112,7 +112,7 @@ export default {
       }
       // const url = location.origin + location.pathname
       // const url = location.href + '&share=true'
-      const url = this.createShareUrl()
+      const url = encodeURI(this.createShareUrl())
       // const shareLink = location.origin + '/activity/q1'
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
