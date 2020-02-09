@@ -108,7 +108,9 @@ export default {
     if (!to.query.result) {
       next(to => {
         console.log(to)
-        to.$router.replace('/activity/q1')
+        to.$router.replace({
+          name: 'q1'
+        })
       })
     } else {
       next()
