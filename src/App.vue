@@ -12,6 +12,11 @@
 import Request from '@/utils/request'
 import wx from 'weixin-js-sdk'
 export default {
+  data () {
+    return {
+      flagFirst: true
+    }
+  },
   computed: {
     isWeixin () {
       const ua = navigator.userAgent.toLowerCase()
@@ -26,17 +31,31 @@ export default {
       }
     }
   },
+  watch: {
+    '$route' (to) {
+      console.log(1234)
+      this.initShare()
+    }
+  },
   mounted () {
     Request.get('/wx/selfTest/visit')
-    this.initShare()
+    this.initPage()
+    // this.initShare()
   },
   methods: {
+    initPage () {
+      if (this.flagFirst) {
+        this.initShare()
+        this.flagFirst = false
+      }
+    },
     initShare () {
       const _this = this
       if (!_this.isWeixin) {
         return
       }
-      const url = location.origin + '/result'
+      // const url = location.origin + location.pathname
+      const url = window.location.href
       // const shareLink = location.origin + '/activity/q1'
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)

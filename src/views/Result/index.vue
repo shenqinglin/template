@@ -114,7 +114,7 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     // console.log(to.query.share)
-    if (!to.query.result) {
+    if (to.query.share) {
       next(to => {
         console.log(to)
         to.$router.replace({
