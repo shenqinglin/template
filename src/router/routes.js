@@ -12,6 +12,7 @@ import Question9 from '@/views/Question9'
 import Question10 from '@/views/Question10'
 import Question11 from '@/views/Question11'
 import Question12 from '@/views/Question12'
+import Hot from '@/views/Hot'
 
 export default [
   {
@@ -86,5 +87,10 @@ export default [
     path: '/result',
     name: 'result',
     component: Result
+  },
+  {
+    path: '/hot',
+    name: 'hot',
+    component: Hot
   }
 ]
