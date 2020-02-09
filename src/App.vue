@@ -78,7 +78,8 @@ export default {
           // const shareLink = location.origin + '/activity/q1'
           const shareLink = location.href + '&share=true'
           const shareTitle = '新冠肺炎居家自测工具'
-          const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
+          // const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
+          const sharePic = ''
           wx.onMenuShareTimeline({
             title: shareTitle,
             link: shareLink,
