@@ -6,8 +6,11 @@
       class="main-contiainer"
       :class="resultClass"
     >
-      <div class="title">
-        自测结果
+      <div
+        class="title"
+        :style="resultStyle"
+      >
+        {{ resultMsg }}
       </div>
       <div class="result-img-tips">
         <div class="img-wp">
@@ -70,9 +73,9 @@ import FooterTip from '@/components/FooterTip'
 const backgroundImg = require('@/assests/img/bg.png')
 const shareImgWeixin = require('@/assests/img/share.png')
 const shareImgNoWeixin = require('@/assests/img/no-weixin-share.png')
-import Request from '@/utils/request'
-import wx from 'weixin-js-sdk'
-console.log(wx)
+// import Request from '@/utils/request'
+
+// console.log(wx)
 const resultImgObj = {
   r1: require('@/assests/img/result1.png'),
   r2: require('@/assests/img/result2.png'),
@@ -91,6 +94,12 @@ const resultColor = {
   r3: '#F4C74E',
   r4: '#9BD680'
 }
+const resultMsgObj = {
+  r1: '建议就医',
+  r2: '检测体温',
+  r3: '建议隔离观察',
+  r4: '一切正常'
+}
 // import MainContainer from '@/components/MainContainer'
 export default {
   components: {
@@ -104,11 +113,13 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    console.log(to.query.share)
+    // console.log(to.query.share)
     if (to.query.share) {
       next(to => {
         console.log(to)
-        to.$router.replace('/activity/q1')
+        to.$router.replace({
+          name: 'q1'
+        })
       })
     } else {
       next()
@@ -118,6 +129,13 @@ export default {
     resultImg () {
       if (this.result !== -1) {
         return resultImgObj[`r${this.result}`]
+      } else {
+        return ''
+      }
+    },
+    resultMsg () {
+      if (this.result !== -1) {
+        return resultMsgObj[`r${this.result}`]
       } else {
         return ''
       }
@@ -170,80 +188,7 @@ export default {
       this.result = result
       console.log(result)
     },
-    initShare () {
-      const _this = this
-      if (!_this.isWeixin) {
-        return
-      }
-      const url = window.location.href
-      // const shareLink = location.origin + '/activity/q1'
-      Request.get('/wx/wechat/config', { data: { url }}).then(data => {
-        console.log(data)
-        wx.config({
-          debug: true,
-          appId: data.appId,
-          timestamp: data.timestamp, // 必填，生成签名的时间戳
-          nonceStr: data.nonceStr, // 必填，生成签名的随机串
-          signature: data.signature, // 必填，签名
-          jsApiList: [ // 用的方法都要加进来
-            'updateAppMessageShareData',
-            'updateTimelineShareData',
-            'onMenuShareTimeline',
-            'onMenuShareAppMessage',
-            'onMenuShareQQ'
-          ]
 
-        })
-        wx.ready(function () {
-          // 分享到朋友圈
-          // const shareLink = location.origin + '/activity/q1'
-          const shareLink = location.href + '&share=true'
-          const shareTitle = '新冠肺炎居家自测工具'
-          const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
-          wx.onMenuShareTimeline({
-            title: shareTitle,
-            link: shareLink,
-            imgUrl: encodeURI(sharePic),
-            success: function (res) {
-              _this.sharePicVisible = false
-            }
-          })
-          wx.updateTimelineShareData({
-            title: shareTitle, // 分享标题
-            link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: encodeURI(sharePic), // 分享图标
-            success: function () {
-              // 设置成功
-              _this.sharePicVisible = false
-              console.log('分享到朋友圈成功返回的信息为:')
-            }
-          })
-
-          // 分享给朋友
-          wx.onMenuShareAppMessage({
-            title: shareTitle,
-            desc: 'asdasd',
-            link: shareLink,
-            imgUrl: encodeURI(sharePic),
-            type: '', // 不填默认时link
-            dataUrl: '', // 默认空
-            success: function () {
-              _this.sharePicVisible = false
-            }
-          })
-          // 分享给朋友 及 QQ
-          wx.updateAppMessageShareData({
-            title: sharePic,
-            desc: 'asd',
-            link: shareLink,
-            imgUrl: encodeURI(sharePic),
-            success: function () {
-              _this.sharePicVisible = false
-            }
-          })
-        })
-      })
-    },
     goHotList () {
       this.$router.push({
         name: 'hot'
@@ -268,16 +213,17 @@ export default {
       background: rgba(255,255,255,1);
       box-shadow: 0px 2px 30px 0px rgba(0,0,0,0.2),0px 1px 10px 0px rgba(159,217,255,1);
       border-radius: 20px;
-      padding: 23px 50px 0px;
+      padding: 0 50px 0px;
       .title {
-        color: #999;
-        font-size: 24px;
+        height: 92px;
+        line-height: 92px;
+        font-size: 34px;
         text-align: center;
       }
     }
     .result-img-tips {
       width: 530px;
-      margin: 92px auto;
+      margin: 0 auto 30px;
       .img-wp {
         width: 440px;
         height: 258px;
@@ -289,7 +235,7 @@ export default {
       }
       .result-tips {
         font-size: 28px;
-        margin-top: 62px;
+        margin-top: 26px;
       }
     }
     .btn-wp {
@@ -325,30 +271,36 @@ export default {
     }
     .main-contiainer {
       &.result1 {
+        .btn-wp {
+          margin-top: 76px;
+        }
         .result-img-tips {
-          margin-top: 90px;
+          margin-top: 0px;
         }
       }
       &.result2 {
         .btn-wp {
-          margin-top: 66px;
+          margin-top: 26px;
         }
         .result-img-tips {
-          margin-top: 35px;
+          margin-top: 0;
           .result-tips {
-            margin-top: 59px;
+            margin-top: 26px;
           }
         }
       }
       &.result3 {
         .btn-wp {
-          margin-top: 46px;
+          margin-top: 26px;
         }
         .result-img-tips {
-          margin-top: 38px;
+          margin-top: 0;
           .result-tips {
-            margin-top: 36px;
+            margin-top: 26px;
           }
+        }
+        .look-hos-list{
+          margin-top: 25px;
         }
       }
     }
@@ -358,6 +310,7 @@ export default {
       height: 100%;
       top: 0;
       left: 0;
+      z-index: 999;
       .masker {
         position: absolute;
         width: 100%;

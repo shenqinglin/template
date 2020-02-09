@@ -71,7 +71,7 @@ export default {
   }
   .hot-list-wrap {
     background: #fff;
-    margin-bottom: 108px;
+    margin-bottom: 48px;
     .head-img {
       font-size: 0;
       img {
@@ -154,7 +154,9 @@ export default {
     }
   }
   /deep/.footer-tip {
+    position: static;
     color: #ddd;
+    /* color:#ddd; */
     font-size: 20px;
     margin-top: 50px;
     .center {

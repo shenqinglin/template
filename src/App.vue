@@ -10,10 +10,120 @@
 </template>
 <script>
 import Request from '@/utils/request'
-
+import wx from 'weixin-js-sdk'
 export default {
+  data () {
+    return {
+      flagFirst: true
+    }
+  },
+  computed: {
+    isWeixin () {
+      const ua = navigator.userAgent.toLowerCase()
+      const r = ua.match(/MicroMessenger/i)
+      if (!r) {
+        return false
+      }
+      if (r[0] === 'micromessenger') {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  watch: {
+    '$route' (to) {
+      console.log(1234)
+      this.initShare()
+    }
+  },
   mounted () {
     Request.get('/wx/selfTest/visit')
+    this.initPage()
+    // this.initShare()
+  },
+  methods: {
+    initPage () {
+      if (this.flagFirst) {
+        this.initShare()
+        this.flagFirst = false
+      }
+    },
+    initShare () {
+      const _this = this
+      if (!_this.isWeixin) {
+        return
+      }
+      // const url = location.origin + location.pathname
+      const url = window.location.href
+      // const shareLink = location.origin + '/activity/q1'
+      Request.get('/wx/wechat/config', { data: { url }}).then(data => {
+        console.log(data)
+        wx.config({
+          debug: true,
+          appId: data.appId,
+          timestamp: data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: data.nonceStr, // 必填，生成签名的随机串
+          signature: data.signature, // 必填，签名
+          jsApiList: [ // 用的方法都要加进来
+            'updateAppMessageShareData',
+            'updateTimelineShareData',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+          ]
+
+        })
+        wx.ready(function () {
+          // 分享到朋友圈
+          // const shareLink = location.origin + '/activity/q1'
+          const shareLink = location.href + '&share=true'
+          const shareTitle = '新冠肺炎居家自测工具'
+          const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
+          wx.onMenuShareTimeline({
+            title: shareTitle,
+            link: shareLink,
+            imgUrl: encodeURI(sharePic),
+            success: function (res) {
+              _this.sharePicVisible = false
+            }
+          })
+          wx.updateTimelineShareData({
+            title: shareTitle, // 分享标题
+            link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: encodeURI(sharePic), // 分享图标
+            success: function () {
+              // 设置成功
+              _this.sharePicVisible = false
+              console.log('分享到朋友圈成功返回的信息为:')
+            }
+          })
+
+          // 分享给朋友
+          wx.onMenuShareAppMessage({
+            title: shareTitle,
+            desc: 'asdasd',
+            link: shareLink,
+            imgUrl: encodeURI(sharePic),
+            type: '', // 不填默认时link
+            dataUrl: '', // 默认空
+            success: function () {
+              _this.sharePicVisible = false
+            }
+          })
+          // 分享给朋友 及 QQ
+          wx.updateAppMessageShareData({
+            title: sharePic,
+            desc: 'asd',
+            link: shareLink,
+            imgUrl: encodeURI(sharePic),
+            success: function () {
+              _this.sharePicVisible = false
+            }
+          })
+        })
+      })
+    }
   }
 }
 </script>
