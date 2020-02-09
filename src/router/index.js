@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.NODE_ENV !== 'development' ? '/activity' : '/',
+  base: process.env.NODE_ENV !== 'development' ? '/2019ncov' : '/',
   routes,
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
