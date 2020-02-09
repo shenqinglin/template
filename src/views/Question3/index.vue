@@ -183,6 +183,7 @@ export default {
   .answer-wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     transition: all 0.2s ease;
     .answer {
       width: 250px;
@@ -213,11 +214,6 @@ export default {
         margin-top: 26px;
       }
     }
-
-    .ml50 {
-      margin-left: 50px;
-    }
-
     .mt18 {
       margin-top: 18px;
     }
