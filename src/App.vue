@@ -42,6 +42,14 @@ export default {
     // this.initShare()
   },
   methods: {
+    createShareUrl () {
+      const curr = location.href
+      if (curr.indexOf('?') > -1) {
+        return curr + '&share=true'
+      } else {
+        return curr + '?share=true'
+      }
+    },
     initPage () {
       if (this.flagFirst) {
         this.initShare()
@@ -54,7 +62,9 @@ export default {
         return
       }
       // const url = location.origin + location.pathname
-      const url = location.href + '&share=true'
+      // const url = location.href + '&share=true'
+      // const url = location.href + '&share=true'
+      const url = this.createShareUrl()
       // const shareLink = location.origin + '/activity/q1'
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
@@ -78,7 +88,8 @@ export default {
         wx.ready(function () {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
-          const shareLink = location.href + '&share=true'
+          // const shareLink = location.href + '&share=true'
+          const shareLink = this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
           // const sharePic = ''
