@@ -12,6 +12,9 @@ import Question9 from '@/views/Question9'
 import Question10 from '@/views/Question10'
 import Question11 from '@/views/Question11'
 import Question12 from '@/views/Question12'
+import Question13 from '@/views/Question13'
+import Question14 from '@/views/Question14'
+import Question15 from '@/views/Question15'
 import Hot from '@/views/Hot'
 
 export default [
@@ -80,6 +83,21 @@ export default [
         path: 'q12',
         name: 'q12',
         component: Question12
+      },
+      {
+        path: 'q13',
+        name: 'q13',
+        component: Question13
+      },
+      {
+        path: 'q14',
+        name: 'q14',
+        component: Question14
+      },
+      {
+        path: 'q15',
+        name: 'q15',
+        component: Question15
       }
     ]
   },
