@@ -142,7 +142,7 @@ export default {
         window.wx.ready(function () {
           console.log('chenggong', window.wx)
           console.log('12345ready')
-          const shareLink = this.createShareUrl()
+          const shareLink = _this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
           window.wx.updateTimelineShareData({
