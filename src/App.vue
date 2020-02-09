@@ -139,8 +139,11 @@ export default {
           ]
 
         })
+        wx.ready(function () {
+          console.log('chenggong')
+        })
         wx.ereor(function (res) {
-          // console.log(res)
+          console.log('erroroerrerrerr')
         })
       }).then(data => {
         console.log('data -> ready')
