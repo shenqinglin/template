@@ -5,12 +5,9 @@
       alt=""
     >
     <div class="content">
-      <h3>此量表依据：</h3>
+      <h3>此测试依据：</h3>
       <p class="main">
-        《卫生健康委办公厅关于在疫情防控中做好互联网诊疗咨询服务工作的通知》
-      </p>
-      <p class="date">
-        国卫办医函（2020）112号
+        《国家卫生健康委办公厅关于在疫情防控中做好互联网诊疗咨询服务工作的通知》<span>（国卫办医函〔2020〕112号）</span>中，智能辅助新型冠状病毒肺炎问诊量表制作。
       </p>
     </div>
     <div
@@ -59,6 +56,9 @@ export default {
     .main{
       font-size: 34px;
       margin: 48px 0 20px;
+      span{
+        font-size: 24px;
+      }
     }
     .date{
       font-size: 24px;
