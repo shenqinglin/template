@@ -8,7 +8,15 @@
     </div>
   </div>
 </template>
+<script>
+import Request from '@/utils/request'
 
+export default {
+  mounted () {
+    Request.get('/wx/selfTest/visit')
+  }
+}
+</script>
 <style lang="less">
 @import '~@/assests/styles/common.less';
 @import '~@/assests/styles/layout.less';

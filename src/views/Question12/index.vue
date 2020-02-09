@@ -122,7 +122,7 @@ export default {
       })
       const result = this.calcResult()
 
-      Request.get('/wx/selfTest/submit', {
+      Request.post('/wx/selfTest/submit', {
         data: {
           content: JSON.stringify({ ...this.answer }),
           result: result
