@@ -72,6 +72,9 @@ export default {
           ]
 
         })
+        wx.ereor(function (res) {
+          console.log(res)
+        })
         wx.ready(function () {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
