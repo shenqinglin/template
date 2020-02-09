@@ -44,9 +44,54 @@ export default {
   methods: {
     initPage () {
       if (this.flagFirst) {
-        this.initShare()
+        // this.initShare()
+        this.weixinJSBridgeShare()
         this.flagFirst = false
       }
+    },
+    weixinJSBridgeShare () {
+      const url = window.location.href
+      const options = {
+        imgUrl: 'https://image.carelink.cn/carelink2/hospital/portrait/ANKUluZJlnmh9982235514181DBD62C2.jpg',
+        lineLink: window.location.href,
+        descContent: '测试描述',
+        shareTitle: '测试标题'
+      }
+      Request.get('/wx/wechat/config', { data: { url }}).then(data => {
+        window.WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+          this.shareFriend(data, options)
+        })
+        // 分享到朋友圈
+        window.WeixinJSBridge.on('menu:share:timeline', function (argv) {
+          this.shareTimeline(data, options)
+        })
+      })
+    },
+    shareFriend (data, options) {
+      window.WeixinJSBridge.invoke('sendAppMessage', {
+        'appid': data.appid,
+        'img_url': options.imgUrl,
+        'img_width': '200',
+        'img_height': '200',
+        'link': options.lineLink,
+        'desc': options.descContent,
+        'title': options.shareTitle
+      }, function (res) {
+
+      })
+    },
+    shareTimeline (data, options) {
+      window.WeixinJSBridge.invoke('shareTimeline', {
+        'img_url': options.imgUrl,
+        'img_width': '200',
+        'img_height': '200',
+        'link': options.lineLink,
+        'desc': options.descContent,
+        'title': options.shareTitle
+      }, function (res) {
+        // _report('timeline', res.err_msg); // 这是回调函数，必须注释掉
+
+      })
     },
     initShare () {
       const _this = this
