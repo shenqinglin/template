@@ -141,7 +141,7 @@ export default {
           const shareLink = _this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
-          const shareDesc=""
+          const shareDesc = ''
           window.wx.updateTimelineShareData({
             title: shareTitle, // 分享标题
             link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
