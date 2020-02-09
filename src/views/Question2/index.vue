@@ -110,6 +110,11 @@ export default {
     handleToLast () {
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
+      // 返回上一步删除当前answer
+      this.$store.commit('SET_ANSWER', {
+        qNo: 2,
+        answer: ''
+      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {

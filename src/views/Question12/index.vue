@@ -36,6 +36,15 @@
     </main-container>
     <div class="operate-wrapper">
       <div
+        class="opeator"
+        @click="handleToLast"
+      >
+        <v-icon
+          class="icon rotate"
+          name="arrow"
+        />
+      </div>
+      <div
         class="btn"
         :class="{
           disabled: !state.canSubmit
@@ -150,6 +159,19 @@ export default {
         }
       }
       return result
+    },
+    handleToLast () {
+      const index = this.currentIndex - 1
+      this.$store.commit('SET_INDEX', index)
+      this.$store.commit('SET_ANSWER', {
+        qNo: 11,
+        answer: ''
+      })
+      if (index === -1) {
+        this.$router.replace({ name: 'q1' })
+      } else {
+        this.$router.replace({ name: `q${this.queue[index]}` })
+      }
     }
   }
 }
@@ -158,7 +180,7 @@ export default {
 <style lang="less" scoped>
   .answer-wrapper {
     transition: all 0.2s ease;
-    padding-top: 40px;
+    padding-top: 0;
     .answer {
       width: 565px;
       height: 126px;
@@ -195,7 +217,7 @@ export default {
     }
   }
   .no-one {
-    margin-top: 80px;
+    margin-top: 50px;
     font-size: 30px;
     font-weight: 400px;
     color: #999;
@@ -210,6 +232,28 @@ export default {
   padding-top: 50px;
   display: flex;
   justify-content: space-between;
+  .opeator {
+    height: 84px;
+    width: 84px;
+    border-radius: 42px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      color: #53B9F5;
+      &.rotate {
+        transform: rotate(180deg);
+      }
+    }
+
+    &.disabled {
+      opacity: 0.3;
+    }
+  }
+  .right {
+    float: right;
+  }
   .btn {
     width:230px;
     height:84px;
@@ -221,7 +265,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    float: right;
 
     &.disabled {
       opacity: 0.3;

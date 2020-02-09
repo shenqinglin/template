@@ -55,6 +55,7 @@
 import { mapGetters } from 'vuex'
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
+import { Session } from '@/utils/storage'
 
 export default {
   components: {
@@ -103,6 +104,7 @@ export default {
         qNo: 5,
         answer: this.selectedAnswer
       })
+      this.$store.commit('SET_QUEUE', Session.get('__queue'))
       const { queue } = this
       // 选B 跳过第6题
       if (this.selectedAnswer === 'B') {
@@ -119,6 +121,10 @@ export default {
     handleToLast () {
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
+      this.$store.commit('SET_ANSWER', {
+        qNo: 5,
+        answer: ''
+      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {

@@ -229,7 +229,7 @@ export default {
     }
   }
   .no-one {
-    margin-top: 50px;
+    margin-top: 30px;
     font-size: 30px;
     font-weight: 400px;
     color: #999;

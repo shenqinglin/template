@@ -10,9 +10,9 @@
         </div>
         <van-slider
           v-model="temp"
-          min="37.3"
-          max="42"
-          step="0.1"
+          :min="37.3"
+          :max="42"
+          :step="0.1"
           active-color="#53B9F5"
           inactive-color="#eee"
           bar-height="0.08rem"
@@ -77,7 +77,7 @@ export default {
           text: '≥37.3℃'
         }
       ]),
-      temp: 37.5,
+      temp: 37.3,
       state: {
         toNext: true
       }
@@ -87,7 +87,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.temp = this.answer[3] || 37.5
+    this.temp = this.answer[3] || 37.3
   },
   methods: {
     handleToNext () {
@@ -103,6 +103,10 @@ export default {
     handleToLast () {
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
+      this.$store.commit('SET_ANSWER', {
+        qNo: 3,
+        answer: '37.3'
+      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {

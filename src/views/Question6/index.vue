@@ -118,6 +118,10 @@ export default {
     handleToLast () {
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
+      this.$store.commit('SET_ANSWER', {
+        qNo: 6,
+        answer: ''
+      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {
