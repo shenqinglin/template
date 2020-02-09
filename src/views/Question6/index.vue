@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        吃完退热药后的体温情况是？
+        发热时有没有以下情况？
       </template>
       <div class="answer-wrapper">
         <div
@@ -23,6 +23,15 @@
             name="checked"
           />
         </div>
+      </div>
+      <div
+        class="no-one"
+        :class="{
+          selected: selectedAnswer === 'C'
+        }"
+        @click="handleItemClick({ value: 'C' })"
+      >
+        以上均无
       </div>
     </main-container>
     <div class="operate-wrapper">
@@ -66,15 +75,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '体温下降'
+          text: '发热体温持续不退'
         },
         {
           value: 'B',
-          text: '体温下降又升高'
-        },
-        {
-          value: 'C',
-          text: '体温没有下降'
+          text: '体温一直大于38℃'
         }
       ]),
       selectedAnswer: null,
@@ -87,7 +92,8 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[6] || null
+    const qNo = this.queue[this.currentIndex]
+    this.selectedAnswer = this.answer[qNo] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -103,10 +109,7 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 6,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
       if (index === this.queue.length) {
         // GOTO Result
@@ -116,6 +119,7 @@ export default {
       }
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
       if (index === -1) {
@@ -131,7 +135,7 @@ export default {
 <style lang="less" scoped>
   .answer-wrapper {
     transition: all 0.2s ease;
-    padding-top: 40px;
+    padding-top: 80px;
     .answer {
       width: 565px;
       height: 84px;
@@ -167,7 +171,7 @@ export default {
     }
   }
   .no-one {
-    margin-top: 50px;
+    margin-top: 120px;
     font-size: 30px;
     font-weight: 400px;
     color: #999;

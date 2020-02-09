@@ -1,4 +1,4 @@
-const APP_NAME = 'activity'
+const APP_NAME = '2019ncov'
 
 module.exports = {
   APP_NAME,

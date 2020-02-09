@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        有没有咳痰？
+        近14天有没有去过人群密集场所，如商场、电影院等？
       </template>
       <div class="answer-wrapper">
         <div
@@ -66,11 +66,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '没有咳痰（干咳）'
+          text: '有'
         },
         {
           value: 'B',
-          text: '有咳痰'
+          text: '没有'
         }
       ]),
       selectedAnswer: null,
@@ -102,17 +102,14 @@ export default {
       }
       this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
-      if (index === this.queue.length) {
-        // GOTO Result
-      } else {
-        this.$router.replace({ name: `q${this.queue[index]}` })
-        this.$store.commit('SET_INDEX', index)
-      }
+      this.$store.commit('SET_INDEX', index)
+      this.$router.replace({ name: `q${this.queue[index]}` })
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
-      this.$store.commit('SET_ANSWER', null)
+      // 返回上一步删除当前answer
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {

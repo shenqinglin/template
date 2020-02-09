@@ -40,7 +40,7 @@ export default {
 
 <style lang="less" scoped>
 .content-container {
-  height: 870px;
+  height: 800px;
   background: rgba(255,255,255,1);
   box-shadow: 0px 2px 30px 0px rgba(0,0,0,0.2),0px 1px 10px 0px rgba(159,217,255,1);
   border-radius: 20px;

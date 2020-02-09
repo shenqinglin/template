@@ -6,8 +6,11 @@
       class="main-contiainer"
       :class="resultClass"
     >
-      <div class="title">
-        自测结果
+      <div
+        class="title"
+        :style="resultStyle"
+      >
+        {{ resultMsg }}
       </div>
       <div class="result-img-tips">
         <div class="img-wp">
@@ -15,13 +18,15 @@
         </div>
         <div
           class="result-tips"
-          :style="resultStyle"
         >
           {{ resultTips }}
         </div>
       </div>
       <div class="btn-wp">
-        <div class="invite-btn">
+        <div
+          class="invite-btn"
+          @click="onInviteClk"
+        >
           邀请测试
         </div>
       </div>
@@ -38,13 +43,38 @@
       </div>
       <footer-tip />
     </div>
+    <div
+      v-show="sharePicVisible"
+      class="share-img"
+    >
+      <div
+        class="masker"
+        @click="sharePicVisible=false"
+      />
+      <div
+        class="img"
+        :class="isWeixin? 'weixin-wp': 'no-weixin-wp'"
+      >
+        <img :src="shareImg">
+      </div>
+      <div
+        v-if="!isWeixin"
+        class="no-weixin-tip"
+      >
+        长按保存图片并分享给你关心的人
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import FooterTip from '@/components/FooterTip'
 const backgroundImg = require('@/assests/img/bg.png')
+const shareImgWeixin = require('@/assests/img/share.png')
+const shareImgNoWeixin = require('@/assests/img/no-weixin-share.png')
+// import Request from '@/utils/request'
 
+// console.log(wx)
 const resultImgObj = {
   r1: require('@/assests/img/result1.png'),
   r2: require('@/assests/img/result2.png'),
@@ -63,6 +93,12 @@ const resultColor = {
   r3: '#F4C74E',
   r4: '#9BD680'
 }
+const resultMsgObj = {
+  r1: '建议就医',
+  r2: '检测体温',
+  r3: '建议隔离观察',
+  r4: '一切正常'
+}
 // import MainContainer from '@/components/MainContainer'
 export default {
   components: {
@@ -71,13 +107,34 @@ export default {
   data () {
     return {
       bgImg: Object.freeze(backgroundImg),
-      result: -1
+      result: -1,
+      sharePicVisible: false
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    // console.log(to.query.share)
+    if (to.query.share) {
+      next(to => {
+        console.log(to)
+        to.$router.replace({
+          name: 'q1'
+        })
+      })
+    } else {
+      next()
     }
   },
   computed: {
     resultImg () {
       if (this.result !== -1) {
         return resultImgObj[`r${this.result}`]
+      } else {
+        return ''
+      }
+    },
+    resultMsg () {
+      if (this.result !== -1) {
+        return resultMsgObj[`r${this.result}`]
       } else {
         return ''
       }
@@ -97,10 +154,32 @@ export default {
     },
     resultClass () {
       return `result${this.result}`
+    },
+    isWeixin () {
+      const ua = navigator.userAgent.toLowerCase()
+      const r = ua.match(/MicroMessenger/i)
+      if (!r) {
+        return false
+      }
+      if (r[0] === 'micromessenger') {
+        return true
+      } else {
+        return false
+      }
+    },
+    shareImg () {
+      if (this.isWeixin === true) {
+        console.log(2222)
+        return shareImgWeixin
+      } else {
+        console.log(shareImgNoWeixin)
+        return shareImgNoWeixin
+      }
     }
   },
-  created () {
+  mounted () {
     this.initResult()
+    // this.initShare()
   },
   methods: {
     initResult () {
@@ -108,10 +187,15 @@ export default {
       this.result = result
       console.log(result)
     },
+
     goHotList () {
       this.$router.push({
         name: 'hot'
       })
+    },
+    onInviteClk () {
+      // 先依据userAgent 判断微信环境，是微信点击三个点
+      this.sharePicVisible = true
     }
   }
 }
@@ -124,20 +208,22 @@ export default {
     background: url('~@/assests/img/bg.png') no-repeat left top;
     background-size: contain;
     .main-contiainer {
-      height: 870px;
+      height: 800px;
       background: rgba(255,255,255,1);
       box-shadow: 0px 2px 30px 0px rgba(0,0,0,0.2),0px 1px 10px 0px rgba(159,217,255,1);
       border-radius: 20px;
-      padding: 23px 50px 0px;
+      padding: 0 50px 0px;
       .title {
-        color: #999;
-        font-size: 24px;
+        height: 92px;
+        line-height: 92px;
+        font-size: 34px;
         text-align: center;
+        font-weight: bold;
       }
     }
     .result-img-tips {
       width: 530px;
-      margin: 92px auto;
+      margin: 0 auto 30px;
       .img-wp {
         width: 440px;
         height: 258px;
@@ -149,7 +235,8 @@ export default {
       }
       .result-tips {
         font-size: 28px;
-        margin-top: 62px;
+        margin-top: 26px;
+        color: #333;
       }
     }
     .btn-wp {
@@ -185,31 +272,83 @@ export default {
     }
     .main-contiainer {
       &.result1 {
+        .btn-wp {
+          margin-top: 76px;
+        }
         .result-img-tips {
-          margin-top: 90px;
+          margin-top: 0px;
         }
       }
       &.result2 {
         .btn-wp {
-          margin-top: 66px;
+          margin-top: 26px;
         }
         .result-img-tips {
-          margin-top: 35px;
+          margin-top: 0;
           .result-tips {
-            margin-top: 59px;
+            margin-top: 26px;
           }
         }
       }
       &.result3 {
         .btn-wp {
-          margin-top: 46px;
+          margin-top: 26px;
         }
         .result-img-tips {
-          margin-top: 38px;
+          margin-top: 0;
           .result-tips {
-            margin-top: 36px;
+            margin-top: 26px;
           }
         }
+        .look-hos-list{
+          margin-top: 25px;
+        }
+      }
+    }
+    .share-img {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      .masker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        opacity: 0.7;
+        z-index:2;
+      }
+      .img {
+        position: absolute;
+        width: 521px;
+        height: 627px;
+        top: 28px;
+        right: 37px;
+        z-index: 3;
+        &.no-weixin-wp {
+          width: 550px;
+          height: 860px;
+          top: 120px;
+          left: 50%;
+          transform:translateX(-50%)
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .no-weixin-tip {
+        position: absolute;
+        top: 1010px;
+        color: #fff;
+        font-size: 30px;
+        text-align: center;
+        z-index: 3;
+        width: 100%;
       }
     }
   }

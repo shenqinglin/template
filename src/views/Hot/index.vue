@@ -14,7 +14,7 @@
         接诊时间
       </div>
     </div>
-    <div class=" table-body-wrap">
+    <div class="table-body-wrap">
       <div
         v-for="hot in hotList"
         :key="hot.area"
@@ -61,6 +61,12 @@ export default {
       headImg: headImg,
       hotList: Object.freeze(hotList)
     }
+  },
+  mounted () {
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady () {
+      window.WeixinJSBridge.call('hideToolbar')
+      window.WeixinJSBridge.call('hideOptionMenu')
+    })
   }
 }
 </script>
@@ -70,6 +76,8 @@ export default {
     background-color: #fff;
   }
   .hot-list-wrap {
+    background: #fff;
+    height: 100%;
     .head-img {
       font-size: 0;
       img {
@@ -82,6 +90,7 @@ export default {
     .table-head {
       height: 80px;
       line-height: 80px;
+      box-shadow:0px 0px 30px 0px rgba(0,0,0,0.06);
     }
     .table-head {
       margin-top: -1PX;
@@ -111,8 +120,10 @@ export default {
       width: 710px;
       margin: 30px auto;
       border-radius: 20px;
-      overflow: hidden;
+      overflow-y: auto;
       background:rgba(244,248,255,1);
+      -webkit-overflow-scrolling: touch;
+      height: calc(100vh - 435px);
       .table-body  {
         padding: 30px 21px 0 20px;
         .content {
@@ -151,7 +162,10 @@ export default {
     }
   }
   /deep/.footer-tip {
+    position: static;
     color: #ddd;
+    /* color:#ddd; */
+    font-size: 20px;
     margin-top: 50px;
     .center {
       background-color: #ddd;

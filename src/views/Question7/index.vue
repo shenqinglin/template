@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        有没有咳痰？
+        发热后有没有吃退热药？
       </template>
       <div class="answer-wrapper">
         <div
@@ -55,6 +55,7 @@
 import { mapGetters } from 'vuex'
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
+import { Session } from '@/utils/storage'
 
 export default {
   components: {
@@ -66,11 +67,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '没有咳痰（干咳）'
+          text: '有吃退热药'
         },
         {
           value: 'B',
-          text: '有咳痰'
+          text: '没有吃退热药'
         }
       ]),
       selectedAnswer: null,
@@ -83,7 +84,8 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[7] || null
+    const qNo = this.queue[this.currentIndex]
+    this.selectedAnswer = this.answer[qNo] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -99,19 +101,23 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 7,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
+      this.$store.commit('SET_QUEUE', Session.get('__queue'))
+      const { queue } = this
+      // 选B 跳过第8题
+      if (this.selectedAnswer === 'B') {
+        queue.splice(this.currentIndex + 1, 1)
+      }
       const index = this.currentIndex + 1
-      if (index === this.queue.length) {
+      if (index === queue.length) {
         // GOTO Result
       } else {
-        this.$router.replace({ name: `q${this.queue[index]}` })
+        this.$router.replace({ name: `q${queue[index]}` })
         this.$store.commit('SET_INDEX', index)
       }
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
       if (index === -1) {

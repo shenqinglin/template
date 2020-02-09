@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        有没有咳痰？
+        感到不舒服的时间有多久？
       </template>
       <div class="answer-wrapper">
         <div
@@ -66,11 +66,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '没有咳痰（干咳）'
+          text: '14天以内'
         },
         {
           value: 'B',
-          text: '有咳痰'
+          text: '14天以上'
         }
       ]),
       selectedAnswer: null,
@@ -110,9 +110,9 @@ export default {
       }
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
-      this.$store.commit('SET_ANSWER', null)
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {
