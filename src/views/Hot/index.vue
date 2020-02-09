@@ -122,6 +122,7 @@ export default {
       border-radius: 20px;
       overflow-y: auto;
       background:rgba(244,248,255,1);
+      -webkit-overflow-scrolling: touch;
       height: calc(100vh - 435px);
       .table-body  {
         padding: 30px 21px 0 20px;
