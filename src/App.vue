@@ -112,7 +112,7 @@ export default {
       }
       // const url = location.origin + location.pathname
       // const url = location.href + '&share=true'
-      const url = encodeURI(this.createShareUrl())
+      const url = encodeURIComponent(this.createShareUrl())
       // const shareLink = location.origin + '/activity/q1'
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
@@ -139,7 +139,7 @@ export default {
           // const shareLink = location.href + '&share=true'
           console.log('12345ready')
           // alert('ready')
-          const shareLink = encodeURI(this.createShareUrl())
+          const shareLink = encodeURIComponent(this.createShareUrl())
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
           // const sharePic = ''
