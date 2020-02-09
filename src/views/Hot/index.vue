@@ -61,6 +61,12 @@ export default {
       headImg: headImg,
       hotList: Object.freeze(hotList)
     }
+  },
+  mounted () {
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady () {
+      window.WeixinJSBridge.call('hideToolbar')
+      window.WeixinJSBridge.call('hideOptionMenu')
+    })
   }
 }
 </script>
