@@ -1,74 +1,38 @@
 <template>
-  <div>
-    <div class="content-container">
-      <div class="title-wrapper">
-        <div class="title">
-          <slot name="title" />
-        </div>
-        <div
-          v-if="multiple"
-          class="desc"
-        >
-          多选
-        </div>
+  <div
+    class="content-container"
+    :class="{
+      small: type === 'small'
+    }"
+  >
+    <div class="title-wrapper">
+      <div class="title">
+        <slot name="title" />
       </div>
-      <div class="line" />
+      <div
+        v-if="multiple"
+        class="desc"
+      >
+        多选
+      </div>
+    </div>
+    <div class="line" />
 
-      <slot />
-    </div>
-    <div
-      v-if="operate"
-      class="operate-wrapper"
-    >
-      <div
-        class="opeator"
-        @click="toLast"
-      >
-        <v-icon
-          class="icon rotate"
-          name="arrow"
-        />
-      </div>
-      <div
-        class="opeator"
-        :class="{
-          disabled: goToNext
-        }"
-        @click="handleToNext"
-      >
-        <v-icon
-          class="icon"
-          name="arrow"
-        />
-      </div>
-    </div>
+    <slot />
   </div>
 </template>
 
 <script>
-import VIcon from '@/components/VIcon'
 
 export default {
-  components: {
-    VIcon
-  },
   props: {
-    goToNext: {
+    multiple: {
       type: Boolean,
-      default: true
+      default: false
     },
-    last: {
+    type: {
       type: String,
-      default: ''
-    },
-    next: {
-      type: String,
-      default: ''
-    }
-  },
-  methods: {
-    handleToNext () {
-      this.$router.replace({ name: this.next })
+      default: 'large'
     }
   }
 }
@@ -81,6 +45,9 @@ export default {
   box-shadow: 0px 2px 30px 0px rgba(0,0,0,0.2),0px 1px 10px 0px rgba(159,217,255,1);
   border-radius: 20px;
   padding: 44px 50px 0px;
+  &.small {
+    height: 600px;
+  }
 
   .title-wrapper {
     display: flex;
@@ -107,31 +74,6 @@ export default {
     opacity:0.4;
     margin-top: 20px;
     margin-bottom: 30px;
-  }
-}
-
-.operate-wrapper {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 50px;
-  .opeator {
-    height: 84px;
-    width: 84px;
-    border-radius: 42px;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .icon {
-      color: #53B9F5;
-      &.rotate{
-        transform: rotate(180deg);
-      }
-    }
-
-    &.disabled {
-      opacity: 0.3;
-    }
   }
 }
 
