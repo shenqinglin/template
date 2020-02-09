@@ -33,7 +33,6 @@ export default {
   },
   watch: {
     '$route' (to) {
-      console.log(1234)
       this.initShare()
     }
   },
@@ -83,19 +82,21 @@ export default {
           wx.onMenuShareTimeline({
             title: shareTitle,
             link: shareLink,
+            desc: 'test',
             imgUrl: encodeURI(sharePic),
             success: function (res) {
-              _this.sharePicVisible = false
+              // _this.sharePicVisible = false
             }
           })
           wx.updateTimelineShareData({
             title: shareTitle, // 分享标题
             link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: encodeURI(sharePic), // 分享图标
+            desc: 'test',
             success: function () {
               // 设置成功
-              _this.sharePicVisible = false
-              console.log('分享到朋友圈成功返回的信息为:')
+              // _this.sharePicVisible = false
+              // console.log('分享到朋友圈成功返回的信息为:')
             }
           })
 
@@ -108,7 +109,8 @@ export default {
             type: '', // 不填默认时link
             dataUrl: '', // 默认空
             success: function () {
-              _this.sharePicVisible = false
+              alert(11111111)
+              // _this.sharePicVisible = false
             }
           })
           // 分享给朋友 及 QQ
@@ -118,7 +120,8 @@ export default {
             link: shareLink,
             imgUrl: encodeURI(sharePic),
             success: function () {
-              _this.sharePicVisible = false
+              alert(11111111)
+              // _this.sharePicVisible = false
             }
           })
         })
