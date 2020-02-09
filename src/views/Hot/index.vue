@@ -71,7 +71,7 @@ export default {
   }
   .hot-list-wrap {
     background: #fff;
-    margin-bottom: 108px;
+    margin-bottom: 48px;
     .head-img {
       font-size: 0;
       img {
