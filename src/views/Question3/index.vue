@@ -186,7 +186,7 @@ export default {
     justify-content: space-between;
     transition: all 0.2s ease;
     .answer {
-      width: 250px;
+      width: 240px;
       height: 84px;
       background: rgba(83,185,245,0.04);
       border-radius: 10px;
