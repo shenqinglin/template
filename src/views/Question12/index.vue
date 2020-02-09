@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex'
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
-// import Request from '@/utils/request'
+import Request from '@/utils/request'
 
 export default {
   components: {
@@ -122,12 +122,12 @@ export default {
       })
       const result = this.calcResult()
 
-      // Request.get('/wx/selfTest/submit', {
-      //   data: {
-      //     content: JSON.stringify({ ...this.answer }),
-      //     result: result
-      //   }
-      // })
+      Request.get('/wx/selfTest/submit', {
+        data: {
+          content: JSON.stringify({ ...this.answer }),
+          result: result
+        }
+      })
 
       this.$router.replace({ name: 'result', query: { result }})
       this.$store.commit('RESET')
