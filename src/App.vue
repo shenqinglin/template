@@ -121,11 +121,10 @@ export default {
         return
       }
       // const url = location.origin + location.pathname
-      // const url = location.href + '&share=true'
       const url = this.createShareUrl()
-      // const shareLink = location.origin + '/activity/q1'
+      // const shareLink = this.createShareUrl()
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
-        console.log(data)
+        // console.log(data)
         wx.config({
           debug: true,
           appId: data.appId,
@@ -141,7 +140,7 @@ export default {
 
         })
         wx.ereor(function (res) {
-          console.log(res)
+          // console.log(res)
         })
         wx.ready(function () {
           // 分享到朋友圈
