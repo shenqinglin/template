@@ -143,6 +143,7 @@ export default {
           // console.log(res)
         })
       }).then(data => {
+        console.log('data -> ready')
         wx.ready(function () {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
