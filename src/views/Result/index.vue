@@ -21,7 +21,10 @@
         </div>
       </div>
       <div class="btn-wp">
-        <div class="invite-btn">
+        <div
+          class="invite-btn"
+          @click="onInviteClk"
+        >
           邀请测试
         </div>
       </div>
@@ -44,7 +47,9 @@
 <script>
 import FooterTip from '@/components/FooterTip'
 const backgroundImg = require('@/assests/img/bg.png')
-
+import Request from '@/utils/request'
+import wx from 'weixin-js-sdk'
+console.log(wx)
 const resultImgObj = {
   r1: require('@/assests/img/result1.png'),
   r2: require('@/assests/img/result2.png'),
@@ -111,6 +116,41 @@ export default {
     goHotList () {
       this.$router.push({
         name: 'hot'
+      })
+    },
+    onInviteClk () {
+      const url = window.location.href
+      Request.get('/wx/wechat/config', { data: { url }}).then(data => {
+        console.log(data)
+        wx.config({
+          debug: false,
+          appId: data.appid,
+          timestamp: data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: data.nonceStr, // 必填，生成签名的随机串
+          signature: data.signature, // 必填，签名
+          jsApiList: [ // 用的方法都要加进来
+            'updateAppMessageShareData',
+            'updateTimelineShareData',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+          ]
+
+        })
+        wx.ready(function () {
+          // 分享到朋友圈
+          wx.updateTimelineShareData({
+            title: 'test',
+            desc: 'test desc',
+            link: 'www.baid.com',
+            imgUrl: '',
+            success: function (res) {
+
+            }
+          })
+          wx.updateTimelineShareData({
+
+          })
+        })
       })
     }
   }
