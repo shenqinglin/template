@@ -54,15 +54,15 @@ export default {
     },
     createShareUrl () {
       const curr = location.href
+      // return curr
+      // if (curr.indexOf('?') > -1) {
+      //   return curr + '&share=true'
+      // } else {
+      //   return curr + '?share=true'
+      // }
 
-      if (curr.indexOf('?') > -1) {
-        return curr + '&share=true'
-      } else {
-        return curr + '?share=true'
-      }
-
-      // const arr = curr.split('?')
-      // return arr[0]
+      const arr = curr.split('?')
+      return arr[0]
     },
     initPage () {
       if (this.flagFirst) {
@@ -121,11 +121,10 @@ export default {
         return
       }
       // const url = location.origin + location.pathname
-      // const url = location.href + '&share=true'
-      const url = encodeURI(this.createShareUrl())
-      // const shareLink = location.origin + '/activity/q1'
+      const url = this.createShareUrl()
+      // const shareLink = this.createShareUrl()
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
-        console.log(data)
+        // console.log(data)
         wx.config({
           debug: true,
           appId: data.appId,
@@ -141,7 +140,7 @@ export default {
 
         })
         wx.ereor(function (res) {
-          console.log(res)
+          // console.log(res)
         })
         wx.ready(function () {
           // 分享到朋友圈
@@ -149,7 +148,7 @@ export default {
           // const shareLink = location.href + '&share=true'
           console.log('12345ready')
           // alert('ready')
-          const shareLink = encodeURI(this.createShareUrl())
+          const shareLink = this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
           // const sharePic = ''
