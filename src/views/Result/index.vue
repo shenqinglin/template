@@ -164,9 +164,9 @@ export default {
       if (!_this.isWeixin) {
         return
       }
-      // const url = window.location.href
-      const shareLink = location.origin + '/activity/q1'
-      Request.get('/wx/wechat/config', { data: { url: shareLink }}).then(data => {
+      const url = window.location.href
+      // const shareLink = location.origin + '/activity/q1'
+      Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
         wx.config({
           debug: true,
