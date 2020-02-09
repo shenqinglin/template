@@ -49,7 +49,7 @@
 </template>
 
 <script>
-const headImg = require('@/assests/img/hot-dept.png')
+const headImg = require('@/assests/img/hot-dept-new.png')
 import hotList from '@/config/hot'
 import FooterTip from '@/components/FooterTip'
 export default {

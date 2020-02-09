@@ -257,7 +257,7 @@ export default {
     }
     .look-hos-list {
       color: #999;
-      font-size: 24px;
+      font-size: 32px;
       margin-top: 40px;
       text-align: center;
     }
