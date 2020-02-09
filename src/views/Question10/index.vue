@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        有没有气急加重的情况？
+        有没有腹泻加重的情况？
       </template>
       <div class="answer-wrapper">
         <div
@@ -83,7 +83,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[10] || null
+    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -99,10 +99,7 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 10,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
       if (index === this.queue.length) {
         // GOTO Result
@@ -112,12 +109,9 @@ export default {
       }
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
-      this.$store.commit('SET_ANSWER', {
-        qNo: 10,
-        answer: ''
-      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {

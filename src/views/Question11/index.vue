@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        感到不舒服的时间有多久？
+        有没有胸闷加重的情况？
       </template>
       <div class="answer-wrapper">
         <div
@@ -66,11 +66,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '14天以内'
+          text: '有'
         },
         {
           value: 'B',
-          text: '14天以上'
+          text: '没有'
         }
       ]),
       selectedAnswer: null,
@@ -83,7 +83,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[11] || null
+    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -99,10 +99,7 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 11,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
       if (index === this.queue.length) {
         // GOTO Result
@@ -112,12 +109,9 @@ export default {
       }
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
-      this.$store.commit('SET_ANSWER', {
-        qNo: 11,
-        answer: ''
-      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {

@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        请选择您的性别？
+        感到不舒服的时间有多久？
       </template>
       <div class="answer-wrapper">
         <div
@@ -27,7 +27,16 @@
     </main-container>
     <div class="operate-wrapper">
       <div
-        class="opeator right"
+        class="opeator"
+        @click="handleToLast"
+      >
+        <v-icon
+          class="icon rotate"
+          name="arrow"
+        />
+      </div>
+      <div
+        class="opeator"
         :class="{
           disabled: !state.toNext
         }"
@@ -57,11 +66,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '男'
+          text: '14天以内'
         },
         {
           value: 'B',
-          text: '女'
+          text: '14天以上'
         }
       ]),
       selectedAnswer: null,
@@ -74,7 +83,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[2] || null
+    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -90,13 +99,24 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 2,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
-      this.$router.replace({ name: `q${this.queue[index]}` })
+      if (index === this.queue.length) {
+        // GOTO Result
+      } else {
+        this.$router.replace({ name: `q${this.queue[index]}` })
+        this.$store.commit('SET_INDEX', index)
+      }
+    },
+    handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
+      const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
+      if (index === -1) {
+        this.$router.replace({ name: 'q1' })
+      } else {
+        this.$router.replace({ name: `q${this.queue[index]}` })
+      }
     }
   }
 }
@@ -170,12 +190,13 @@ export default {
         transform: rotate(180deg);
       }
     }
-    &.right {
-      float: right;
-    }
+
     &.disabled {
       opacity: 0.3;
     }
+  }
+  .right {
+    float: right;
   }
 }
 </style>

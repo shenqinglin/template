@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        有没有腹泻加重的情况？
+        吃完退热药后的体温情况是？
       </template>
       <div class="answer-wrapper">
         <div
@@ -66,11 +66,15 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '有'
+          text: '体温下降'
         },
         {
           value: 'B',
-          text: '没有'
+          text: '体温下降又升高'
+        },
+        {
+          value: 'C',
+          text: '体温没有下降'
         }
       ]),
       selectedAnswer: null,
@@ -83,7 +87,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[8] || null
+    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -99,10 +103,7 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 8,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
       if (index === this.queue.length) {
         // GOTO Result
@@ -115,7 +116,7 @@ export default {
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
       this.$store.commit('SET_ANSWER', {
-        qNo: 8,
+        qNo: 6,
         answer: ''
       })
       if (index === -1) {
@@ -131,7 +132,7 @@ export default {
 <style lang="less" scoped>
   .answer-wrapper {
     transition: all 0.2s ease;
-    padding-top: 80px;
+    padding-top: 40px;
     .answer {
       width: 565px;
       height: 84px;

@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        发热时有没有以下情况？
+        目前体温是多少？
       </template>
       <div class="answer-wrapper">
         <div
@@ -23,15 +23,6 @@
             name="checked"
           />
         </div>
-      </div>
-      <div
-        class="no-one"
-        :class="{
-          selected: selectedAnswer === 'C'
-        }"
-        @click="handleItemClick({ value: 'C' })"
-      >
-        以上均无
       </div>
     </main-container>
     <div class="operate-wrapper">
@@ -75,11 +66,11 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '发热体温持续不退'
+          text: '<37.3℃'
         },
         {
           value: 'B',
-          text: '体温一直大于38℃'
+          text: '≥37.3℃'
         }
       ]),
       selectedAnswer: null,
@@ -92,7 +83,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[4] || null
+    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -108,25 +99,15 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 4,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
-      if (index === this.queue.length) {
-        // GOTO Result
-      } else {
-        this.$router.replace({ name: `q${this.queue[index]}` })
-        this.$store.commit('SET_INDEX', index)
-      }
+      this.$router.replace({ name: `q${this.queue[index]}` })
+      this.$store.commit('SET_INDEX', index)
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', null)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
-      this.$store.commit('SET_ANSWER', {
-        qNo: 4,
-        answer: ''
-      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {
@@ -176,7 +157,7 @@ export default {
     }
   }
   .no-one {
-    margin-top: 120px;
+    margin-top: 50px;
     font-size: 30px;
     font-weight: 400px;
     color: #999;
