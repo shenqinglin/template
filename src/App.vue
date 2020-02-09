@@ -196,7 +196,7 @@ export default {
   font-size: 14px;
   color: #666;
   height: 100vh;
-  background-color: #53b9f5;
+  background-color: #01bafb;
 }
 .grey{
   color: #ccc;
