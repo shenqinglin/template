@@ -71,7 +71,7 @@ export default {
   }
   .hot-list-wrap {
     background: #fff;
-    padding-bottom: 48px;
+    height: 100%;
     .head-img {
       font-size: 0;
       img {
@@ -116,7 +116,7 @@ export default {
       border-radius: 20px;
       overflow-y: auto;
       background:rgba(244,248,255,1);
-      height: calc(100% - 280px);
+      height: calc(100vh - 435px);
       .table-body  {
         padding: 30px 21px 0 20px;
         .content {
