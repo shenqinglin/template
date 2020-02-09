@@ -44,11 +44,15 @@ export default {
   methods: {
     createShareUrl () {
       const curr = location.href
-      if (curr.indexOf('?') > -1) {
-        return curr + '&share=true'
-      } else {
-        return curr + '?share=true'
-      }
+
+      // if (curr.indexOf('?') > -1) {
+      //   return curr + '&share=true'
+      // } else {
+      //   return curr + '?share=true'
+      // }
+
+      const arr = curr.split('?')
+      return arr[0]
     },
     initPage () {
       if (this.flagFirst) {
