@@ -11,7 +11,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Request from '@/utils/request'
-import wx from 'weixin-js-sdk'
+
 export default {
   data () {
     return {
@@ -125,7 +125,7 @@ export default {
       // const shareLink = this.createShareUrl()
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         // console.log(data)
-        wx.config({
+        window.wx.config({
           debug: true,
           appId: data.appId,
           timestamp: data.timestamp, // 必填，生成签名的时间戳
@@ -139,13 +139,13 @@ export default {
           ]
 
         })
-        wx.ready(function () {
+        window.wx.ready(function () {
           console.log('chenggong')
           console.log('12345ready')
           const shareLink = this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
-          wx.updateTimelineShareData({
+          window.wx.updateTimelineShareData({
             title: shareTitle, // 分享标题
             link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: encodeURI(sharePic), // 分享图标
@@ -157,7 +157,7 @@ export default {
             }
           })
           // 分享给朋友 及 QQ
-          wx.updateAppMessageShareData({
+          window.wx.updateAppMessageShareData({
             title: sharePic,
             desc: 'asd',
             link: shareLink,
@@ -168,12 +168,12 @@ export default {
             }
           })
         })
-        wx.ereor(function (res) {
+        window.wx.ereor(function (res) {
           console.log('erroroerrerrerr')
         })
       }).then(data => {
         console.log('data -> ready')
-        wx.ready(function () {
+        window.wx.ready(function () {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
           // const shareLink = location.href + '&share=true'
