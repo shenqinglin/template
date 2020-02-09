@@ -41,7 +41,7 @@ export default {
   mounted () {
     if (this.queue.length === 0) {
       this.toQuestionPage()
-      this.$router.replace({ name: 'q1' })
+      this.$router.replace({ name: 'index' })
     }
 
     Request.get('/wx/selfTest/visit')
@@ -196,11 +196,14 @@ export default {
   font-size: 14px;
   color: #666;
   height: 100vh;
-  background-color: #53b9f5;
+  background-color: #00bcfc;
 }
 .grey{
   color: #ccc;
   font-weight: 400;
+}
+.iconfont{
+  font-size: 48px;
 }
 
 .footer-tip {

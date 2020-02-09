@@ -1,4 +1,5 @@
 import Home from '@/views/Home'
+import Index from '@/views/Index'
 import Result from '@/views/Result'
 import Question1 from '@/views/Question1'
 import Question2 from '@/views/Question2'
@@ -22,7 +23,7 @@ export default [
     path: '/',
     name: 'home',
     component: Home,
-    redirect: '/q1',
+    redirect: '/index',
     children: [
       {
         path: 'q1',
@@ -110,5 +111,10 @@ export default [
     path: '/hot',
     name: 'hot',
     component: Hot
+  },
+  {
+    path: '/index',
+    name: 'index',
+    component: Index
   }
 ]

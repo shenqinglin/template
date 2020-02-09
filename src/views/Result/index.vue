@@ -256,8 +256,8 @@ export default {
 
     }
     .look-hos-list {
-      color: #999;
-      font-size: 24px;
+      color: #53B9F5;
+      font-size: 30px;
       margin-top: 40px;
       text-align: center;
     }
@@ -292,16 +292,17 @@ export default {
       }
       &.result3 {
         .btn-wp {
-          margin-top: 26px;
+          margin-top: 20px;
         }
         .result-img-tips {
           margin-top: 0;
+          margin-bottom: 10px;
           .result-tips {
             margin-top: 26px;
           }
         }
         .look-hos-list{
-          margin-top: 25px;
+          margin-top: 20px;
         }
       }
     }
