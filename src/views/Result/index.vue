@@ -41,12 +41,35 @@
       </div>
       <footer-tip />
     </div>
+    <div
+      v-show="sharePicVisible"
+      class="share-img"
+    >
+      <div
+        class="masker"
+        @click="sharePicVisible=false"
+      />
+      <div
+        class="img"
+        :class="isWeixin? 'weixin-wp': 'no-weixin-wp'"
+      >
+        <img :src="shareImg">
+      </div>
+      <div
+        v-if="!isWeixin"
+        class="no-weixin-tip"
+      >
+        长按保存图片并分享给你关心的人
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import FooterTip from '@/components/FooterTip'
 const backgroundImg = require('@/assests/img/bg.png')
+const shareImgWeixin = require('@/assests/img/share.png')
+const shareImgNoWeixin = require('@/assests/img/no-weixin-share.png')
 import Request from '@/utils/request'
 import wx from 'weixin-js-sdk'
 console.log(wx)
@@ -76,7 +99,8 @@ export default {
   data () {
     return {
       bgImg: Object.freeze(backgroundImg),
-      result: -1
+      result: -1,
+      sharePicVisible: false
     }
   },
   computed: {
@@ -102,10 +126,32 @@ export default {
     },
     resultClass () {
       return `result${this.result}`
+    },
+    isWeixin () {
+      const ua = navigator.userAgent.toLowerCase()
+      const r = ua.match(/MicroMessenger/i)
+      if (!r) {
+        return false
+      }
+      if (r[0] === 'micromessenger') {
+        return true
+      } else {
+        return false
+      }
+    },
+    shareImg () {
+      if (this.isWeixin === true) {
+        console.log(2222)
+        return shareImgWeixin
+      } else {
+        console.log(shareImgNoWeixin)
+        return shareImgNoWeixin
+      }
     }
   },
   created () {
     this.initResult()
+    // this.initShare()
   },
   methods: {
     initResult () {
@@ -113,12 +159,7 @@ export default {
       this.result = result
       console.log(result)
     },
-    goHotList () {
-      this.$router.push({
-        name: 'hot'
-      })
-    },
-    onInviteClk () {
+    initShare () {
       const url = window.location.href
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
@@ -132,15 +173,16 @@ export default {
             'updateAppMessageShareData',
             'updateTimelineShareData',
             'onMenuShareTimeline',
-            'onMenuShareAppMessage'
+            'onMenuShareAppMessage',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
           ]
 
         })
         wx.ready(function () {
           // 分享到朋友圈
-          wx.updateTimelineShareData({
+          wx.onMenuShareTimeline({
             title: 'test',
-            desc: 'test desc',
             link: 'www.baid.com',
             imgUrl: '',
             success: function (res) {
@@ -148,10 +190,44 @@ export default {
             }
           })
           wx.updateTimelineShareData({
+            title: 'asdasdf', // 分享标题
+            link: 'asd', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'rl', // 分享图标
+            success: function () {
+              // 设置成功
+              console.log('分享到朋友圈成功返回的信息为:')
+            }
+          })
 
+          // 分享给朋友
+          wx.onMenuShareAppMessage({
+            title: 'qweqwe',
+            desc: 'asdasd',
+            link: 'www.baidu.com',
+            type: '', // 不填默认时link
+            dataUrl: '', // 默认空
+            success: function () {
+
+            }
+          })
+          // 分享给朋友 及 QQ
+          wx.updateAppMessageShareData({
+            title: 'title',
+            desc: '秒数',
+            link: 'www.baidu.com',
+            imgUrl: encodeURI('http://www.baidu.com')
           })
         })
       })
+    },
+    goHotList () {
+      this.$router.push({
+        name: 'hot'
+      })
+    },
+    onInviteClk () {
+      // 先依据userAgent 判断微信环境，是微信点击三个点
+      this.sharePicVisible = true
     }
   }
 }
@@ -250,6 +326,51 @@ export default {
             margin-top: 36px;
           }
         }
+      }
+    }
+    .share-img {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      .masker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        opacity: 0.7;
+        z-index:2;
+      }
+      .img {
+        position: absolute;
+        width: 521px;
+        height: 627px;
+        top: 28px;
+        right: 37px;
+        z-index: 3;
+        &.no-weixin-wp {
+          width: 550px;
+          height: 860px;
+          top: 120px;
+          left: 50%;
+          transform:translateX(-50%)
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .no-weixin-tip {
+        position: absolute;
+        top: 1010px;
+        color: #fff;
+        font-size: 30px;
+        text-align: center;
+        z-index: 3;
+        width: 100%;
       }
     }
   }
