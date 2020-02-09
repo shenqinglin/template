@@ -6,8 +6,11 @@
       class="main-contiainer"
       :class="resultClass"
     >
-      <div class="title">
-        自测结果
+      <div
+        class="title"
+        :style="resultStyle"
+      >
+        {{ resultMsg }}
       </div>
       <div class="result-img-tips">
         <div class="img-wp">
@@ -91,6 +94,12 @@ const resultColor = {
   r3: '#F4C74E',
   r4: '#9BD680'
 }
+const resultMsgObj = {
+  r1: '建议就医',
+  r2: '检测体温',
+  r3: '建议隔离观察',
+  r4: '一切正常'
+}
 // import MainContainer from '@/components/MainContainer'
 export default {
   components: {
@@ -118,6 +127,13 @@ export default {
     resultImg () {
       if (this.result !== -1) {
         return resultImgObj[`r${this.result}`]
+      } else {
+        return ''
+      }
+    },
+    resultMsg () {
+      if (this.result !== -1) {
+        return resultMsgObj[`r${this.result}`]
       } else {
         return ''
       }
@@ -195,16 +211,17 @@ export default {
       background: rgba(255,255,255,1);
       box-shadow: 0px 2px 30px 0px rgba(0,0,0,0.2),0px 1px 10px 0px rgba(159,217,255,1);
       border-radius: 20px;
-      padding: 23px 50px 0px;
+      padding: 0 50px 0px;
       .title {
-        color: #999;
-        font-size: 24px;
+        height: 92px;
+        line-height: 92px;
+        font-size: 34px;
         text-align: center;
       }
     }
     .result-img-tips {
       width: 530px;
-      margin: 92px auto;
+      margin: 0 auto 30px;
       .img-wp {
         width: 440px;
         height: 258px;
@@ -216,7 +233,7 @@ export default {
       }
       .result-tips {
         font-size: 28px;
-        margin-top: 62px;
+        margin-top: 26px;
       }
     }
     .btn-wp {
@@ -253,28 +270,28 @@ export default {
     .main-contiainer {
       &.result1 {
         .result-img-tips {
-          margin-top: 90px;
+          margin-top: 0px;
         }
       }
       &.result2 {
         .btn-wp {
-          margin-top: 66px;
+          margin-top: 26px;
         }
         .result-img-tips {
-          margin-top: 35px;
+          margin-top: 0;
           .result-tips {
-            margin-top: 59px;
+            margin-top: 26px;
           }
         }
       }
       &.result3 {
         .btn-wp {
-          margin-top: 46px;
+          margin-top: 26px;
         }
         .result-img-tips {
-          margin-top: 38px;
+          margin-top: 0;
           .result-tips {
-            margin-top: 36px;
+            margin-top: 26px;
           }
         }
       }
@@ -285,6 +302,7 @@ export default {
       height: 100%;
       top: 0;
       left: 0;
+      z-index: 999;
       .masker {
         position: absolute;
         width: 100%;
