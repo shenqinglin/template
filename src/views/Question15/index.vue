@@ -98,7 +98,8 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[this.currentIndex + 1] || {}
+    const qNo = this.queue[this.currentIndex]
+    this.selectedAnswer = this.answer[qNo] || {}
     this.changeNextBtnStatus()
   },
   methods: {
@@ -125,6 +126,9 @@ export default {
       this.state.canSubmit = true
     },
     handleSubmit () {
+      if (Object.keys(this.selectedAnswer).length === 0) {
+        return
+      }
       this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const result = this.calcResult()
 

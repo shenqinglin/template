@@ -83,7 +83,8 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
+    const qNo = this.queue[this.currentIndex]
+    this.selectedAnswer = this.answer[qNo] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -101,8 +102,8 @@ export default {
       }
       this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
-      this.$router.replace({ name: `q${this.queue[index]}` })
       this.$store.commit('SET_INDEX', index)
+      this.$router.replace({ name: `q${this.queue[index]}` })
     },
     handleToLast () {
       this.$store.commit('SET_ANSWER', null)

@@ -84,7 +84,8 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
+    const qNo = this.queue[this.currentIndex]
+    this.selectedAnswer = this.answer[qNo] || null
     this.changeNextBtnStatus()
   },
   methods: {
