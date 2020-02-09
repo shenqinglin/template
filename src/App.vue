@@ -155,12 +155,12 @@ export default {
           })
           // 分享给朋友 及 QQ
           window.wx.updateAppMessageShareData({
-            title: sharePic,
+            title: shareTitle,
             desc: shareDesc,
             link: shareLink,
             imgUrl: encodeURI(sharePic),
             success: function () {
-              console.log('123')
+              // console.log('123')
               // _this.sharePicVisible = false
             }
           })
