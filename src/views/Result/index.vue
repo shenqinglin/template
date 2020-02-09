@@ -25,7 +25,10 @@
           邀请测试
         </div>
       </div>
-      <div class="look-hos-list">
+      <div
+        class="look-hos-list"
+        @click="goHotList"
+      >
         查看北京市发热门诊医院列表
       </div>
     </div>
@@ -33,16 +36,13 @@
       <div class="footer-risk">
         风险提示：本测试及测试结果仅供参考，不能代替医生面诊，不能作为诊断及诊疗的依据，请您根据自身情况及时线下就医。
       </div>
-      <div class="footer-tip">
-        <span class="left tip">北京市卫生健康委员会</span>
-        <span class="center tip" />
-        <span class="right tip">北京市预约挂号统一平台</span>
-      </div>
+      <footer-tip />
     </div>
   </div>
 </template>
 
 <script>
+import FooterTip from '@/components/FooterTip'
 const backgroundImg = require('@/assests/img/bg.png')
 
 const resultImgObj = {
@@ -53,8 +53,8 @@ const resultImgObj = {
 }
 const resultWords = {
   r1: '建议立刻发热门诊就诊，并且佩戴好口罩做好防护。佩戴医用外科口罩或N95口罩，避免乘坐公共交通工具。',
-  r2: '结合你提供的病情症状及接触史特点，建议继续在家监测体温，可适当服用治疗感冒的中成药，注意手卫生，多饮水，休息为主。若体温持续不退或体温大于38℃或不适症状加重，及时就诊。',
-  r3: '建议你们全家及密切接触者居家隔离至少2周，在家期间建议戴口罩交流，条件允许时，尽量单独居住或居住在通风良好的单人房间。多休息，多饮水，注意手卫生和常用物品卫生消毒。若出现发热及呼吸道症状，需马上前往医院就诊。',
+  r2: '结合您提供的病情症状及接触史特点，建议继续在家监测体温，可适当服用治疗感冒的中成药，注意手卫生，多饮水，休息为主。若体温持续不退或体温大于38℃或不适症状加重，及时就诊。',
+  r3: '建议您们全家及密切接触者居家隔离至少2周，在家期间建议戴口罩交流，条件允许时，尽量单独居住或居住在通风良好的单人房间。多休息，多饮水，注意手卫生和常用物品卫生消毒。若出现发热及呼吸道症状，需马上前往医院就诊。',
   r4: '建议您戴口罩、勤洗手，避免人群聚集，减少不必要外出。'
 }
 const resultColor = {
@@ -66,7 +66,7 @@ const resultColor = {
 // import MainContainer from '@/components/MainContainer'
 export default {
   components: {
-    // MainContainer
+    FooterTip
   },
   data () {
     return {
@@ -107,6 +107,11 @@ export default {
       const { result } = this.$route.query
       this.result = result
       console.log(result)
+    },
+    goHotList () {
+      this.$router.push({
+        name: 'hot'
+      })
     }
   }
 }
@@ -176,22 +181,6 @@ export default {
       .footer-risk {
         font-size: 22px;
 
-      }
-      .footer-tip {
-        margin-top: 62px;
-        font-size: 20px;
-        text-align: center;
-        .tip {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .center {
-          height: 28px;
-          width: 1PX;
-          background-color: #fff;
-          border: none;
-          margin: 0 20px;
-        }
       }
     }
     .main-contiainer {
