@@ -54,15 +54,15 @@ export default {
     },
     createShareUrl () {
       const curr = location.href
-      // return curr
+      return curr
       // if (curr.indexOf('?') > -1) {
       //   return curr + '&share=true'
       // } else {
       //   return curr + '?share=true'
       // }
 
-      const arr = curr.split('?')
-      return arr[0]
+      // const arr = curr.split('?')
+      // return arr[0]
     },
     initPage () {
       if (this.flagFirst) {
@@ -142,25 +142,15 @@ export default {
         wx.ereor(function (res) {
           // console.log(res)
         })
+      }).then(data => {
         wx.ready(function () {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
           // const shareLink = location.href + '&share=true'
           console.log('12345ready')
-          // alert('ready')
           const shareLink = this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
-          // const sharePic = ''
-          // wx.onMenuShareTimeline({
-          //   title: shareTitle,
-          //   link: shareLink,
-          //   desc: 'test',
-          //   imgUrl: encodeURI(sharePic),
-          //   success: function (res) {
-          //     // _this.sharePicVisible = false
-          //   }
-          // })
           wx.updateTimelineShareData({
             title: shareTitle, // 分享标题
             link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
@@ -172,20 +162,6 @@ export default {
               // console.log('分享到朋友圈成功返回的信息为:')
             }
           })
-
-          // 分享给朋友
-          // wx.onMenuShareAppMessage({
-          //   title: shareTitle,
-          //   desc: 'asdasd',
-          //   link: shareLink,
-          //   imgUrl: encodeURI(sharePic),
-          //   type: '', // 不填默认时link
-          //   dataUrl: '', // 默认空
-          //   success: function () {
-          //     alert(11111111)
-          //     // _this.sharePicVisible = false
-          //   }
-          // })
           // 分享给朋友 及 QQ
           wx.updateAppMessageShareData({
             title: sharePic,
