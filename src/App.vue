@@ -140,7 +140,7 @@ export default {
         window.wx.ready(function () {
           const shareLink = _this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
-          const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
+          const sharePic = 'http://img.114yygh.com/static/2019ncov/img/slt.jpg'
           const shareDesc = ''
           window.wx.updateTimelineShareData({
             title: shareTitle, // 分享标题
