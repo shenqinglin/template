@@ -12,6 +12,20 @@
 import Request from '@/utils/request'
 import wx from 'weixin-js-sdk'
 export default {
+  computed: {
+    isWeixin () {
+      const ua = navigator.userAgent.toLowerCase()
+      const r = ua.match(/MicroMessenger/i)
+      if (!r) {
+        return false
+      }
+      if (r[0] === 'micromessenger') {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   mounted () {
     Request.get('/wx/selfTest/visit')
     this.initShare()
