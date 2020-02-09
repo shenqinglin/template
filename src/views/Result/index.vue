@@ -149,9 +149,9 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.initResult()
-    // this.initShare()
+    this.initShare()
   },
   methods: {
     initResult () {
@@ -160,6 +160,9 @@ export default {
       console.log(result)
     },
     initShare () {
+      if (!this.isWeixin) {
+        return
+      }
       const url = window.location.href
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
