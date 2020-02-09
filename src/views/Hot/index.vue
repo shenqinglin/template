@@ -154,7 +154,9 @@ export default {
     }
   }
   /deep/.footer-tip {
+    position: static;
     color: #ddd;
+    /* color:#ddd; */
     font-size: 20px;
     margin-top: 50px;
     .center {
