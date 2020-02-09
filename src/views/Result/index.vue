@@ -103,6 +103,17 @@ export default {
       sharePicVisible: false
     }
   },
+  beforeRouteEnter (to, from, next) {
+    console.log(to.query.share)
+    if (to.query.share) {
+      next(to => {
+        console.log(to)
+        to.$router.replace('/activity/q1')
+      })
+    } else {
+      next()
+    }
+  },
   computed: {
     resultImg () {
       if (this.result !== -1) {
@@ -151,7 +162,7 @@ export default {
   },
   mounted () {
     this.initResult()
-    this.initShare()
+    // this.initShare()
   },
   methods: {
     initResult () {
@@ -186,7 +197,8 @@ export default {
         })
         wx.ready(function () {
           // 分享到朋友圈
-          const shareLink = location.origin + '/activity/q1'
+          // const shareLink = location.origin + '/activity/q1'
+          const shareLink = location.href + '&share=true'
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
           wx.onMenuShareTimeline({
