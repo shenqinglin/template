@@ -54,12 +54,12 @@ export default {
     },
     createShareUrl () {
       const curr = location.href
-
-      if (curr.indexOf('?') > -1) {
-        return curr + '&share=true'
-      } else {
-        return curr + '?share=true'
-      }
+      return curr
+      // if (curr.indexOf('?') > -1) {
+      //   return curr + '&share=true'
+      // } else {
+      //   return curr + '?share=true'
+      // }
 
       // const arr = curr.split('?')
       // return arr[0]
