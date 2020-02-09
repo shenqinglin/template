@@ -56,8 +56,8 @@ export default {
     },
     initPage () {
       if (this.flagFirst) {
-        // this.initShare()
-        this.weixinJSBridgeShare()
+        this.initShare()
+        // this.weixinJSBridgeShare()
         this.flagFirst = false
       }
     },
