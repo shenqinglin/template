@@ -45,14 +45,14 @@ export default {
     createShareUrl () {
       const curr = location.href
 
-      // if (curr.indexOf('?') > -1) {
-      //   return curr + '&share=true'
-      // } else {
-      //   return curr + '?share=true'
-      // }
+      if (curr.indexOf('?') > -1) {
+        return encodeURIComponent(curr + '&share=true')
+      } else {
+        return encodeURIComponent(curr + '?share=true')
+      }
 
-      const arr = curr.split('?')
-      return arr[0]
+      // const arr = curr.split('?')
+      // return arr[0]
     },
     initPage () {
       if (this.flagFirst) {
