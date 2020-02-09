@@ -14,7 +14,7 @@
         接诊时间
       </div>
     </div>
-    <div class=" table-body-wrap">
+    <div class="table-body-wrap">
       <div
         v-for="hot in hotList"
         :key="hot.area"
@@ -114,8 +114,9 @@ export default {
       width: 710px;
       margin: 30px auto;
       border-radius: 20px;
-      overflow: hidden;
+      overflow-y: auto;
       background:rgba(244,248,255,1);
+      height: calc(100% - 280px);
       .table-body  {
         padding: 30px 21px 0 20px;
         .content {
