@@ -46,9 +46,9 @@ export default {
       const curr = location.href
 
       if (curr.indexOf('?') > -1) {
-        return encodeURIComponent(curr + '&share=true')
+        return curr + '&share=true'
       } else {
-        return encodeURIComponent(curr + '?share=true')
+        return curr + '?share=true'
       }
 
       // const arr = curr.split('?')
@@ -137,7 +137,9 @@ export default {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
           // const shareLink = location.href + '&share=true'
-          const shareLink = this.createShareUrl()
+          console.log('12345ready')
+          // alert('ready')
+          const shareLink = encodeURI(this.createShareUrl())
           const shareTitle = '新冠肺炎居家自测工具'
           const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
           // const sharePic = ''
