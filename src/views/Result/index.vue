@@ -271,6 +271,9 @@ export default {
     }
     .main-contiainer {
       &.result1 {
+        .btn-wp {
+          margin-top: 76px;
+        }
         .result-img-tips {
           margin-top: 0px;
         }
@@ -295,6 +298,9 @@ export default {
           .result-tips {
             margin-top: 26px;
           }
+        }
+        .look-hos-list{
+          margin-top: 25px;
         }
       }
     }
