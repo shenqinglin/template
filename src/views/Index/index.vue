@@ -75,6 +75,7 @@ export default {
     text-align: center;
     font-size: 30px;
     color: #53B9F5;
+    font-weight: bold;
   }
 }
 </style>
