@@ -237,7 +237,7 @@ export default {
   .result-wrap {
     padding: 160px 50px 0px;
     background: #53B9F5;
-    background: url('~@/../../../../public/background.png') no-repeat left top;
+    background: url('~@/assests/img/bg.png') no-repeat left top;
     background-size: contain;
     .main-contiainer {
       height: 870px;

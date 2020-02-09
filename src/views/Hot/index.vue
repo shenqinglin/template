@@ -52,7 +52,6 @@
 const headImg = require('@/assests/img/hot-dept.png')
 import hotList from '@/config/hot'
 import FooterTip from '@/components/FooterTip'
-console.log(hotList)
 export default {
   components: {
     FooterTip
@@ -71,6 +70,8 @@ export default {
     background-color: #fff;
   }
   .hot-list-wrap {
+    background: #fff;
+    margin-bottom: 108px;
     .head-img {
       font-size: 0;
       img {
@@ -83,6 +84,7 @@ export default {
     .table-head {
       height: 80px;
       line-height: 80px;
+      box-shadow:0px 0px 30px 0px rgba(0,0,0,0.06);
     }
     .table-head {
       margin-top: -1PX;
@@ -153,6 +155,7 @@ export default {
   }
   /deep/.footer-tip {
     color: #ddd;
+    font-size: 20px;
     margin-top: 50px;
     .center {
       background-color: #ddd;
