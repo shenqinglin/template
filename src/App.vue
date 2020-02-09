@@ -141,16 +141,6 @@ export default {
         })
         wx.ready(function () {
           console.log('chenggong')
-        })
-        wx.ereor(function (res) {
-          console.log('erroroerrerrerr')
-        })
-      }).then(data => {
-        console.log('data -> ready')
-        wx.ready(function () {
-          // 分享到朋友圈
-          // const shareLink = location.origin + '/activity/q1'
-          // const shareLink = location.href + '&share=true'
           console.log('12345ready')
           const shareLink = this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
@@ -177,6 +167,17 @@ export default {
               // _this.sharePicVisible = false
             }
           })
+        })
+        wx.ereor(function (res) {
+          console.log('erroroerrerrerr')
+        })
+      }).then(data => {
+        console.log('data -> ready')
+        wx.ready(function () {
+          // 分享到朋友圈
+          // const shareLink = location.origin + '/activity/q1'
+          // const shareLink = location.href + '&share=true'
+
         })
       })
     }
