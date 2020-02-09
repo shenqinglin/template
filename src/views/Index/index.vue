@@ -44,7 +44,7 @@ export default {
 <style lang="less" scoped>
 .index{
   padding: 157px 85px 0;
-  background: url(/img/bg.e3a76116.png) no-repeat left top;
+  background: url('~@/assests/img/bg.png') no-repeat left top;
   background-size: contain;
   img{
     width: 239px;
