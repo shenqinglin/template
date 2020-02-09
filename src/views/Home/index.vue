@@ -3,22 +3,7 @@
     <router-view />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex'
-export default {
-  computed: {
-    ...mapGetters(['queue', 'currentIndex'])
-  },
-  mounted () {
-    this.toQuestionPage()
-  },
-  methods: {
-    async toQuestionPage () {
-      await this.$store.dispatch('generateDefaultQuestionQueue')
-    }
-  }
-}
-</script>
+
 <style lang="less" scoped>
 #home {
   padding: 160px 50px 0px;

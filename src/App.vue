@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import Request from '@/utils/request'
 import wx from 'weixin-js-sdk'
 export default {
@@ -29,7 +30,8 @@ export default {
       } else {
         return false
       }
-    }
+    },
+    ...mapGetters(['queue', 'currentIndex'])
   },
   watch: {
     '$route' (to) {
@@ -37,11 +39,19 @@ export default {
     }
   },
   mounted () {
+    if (this.queue.length === 0) {
+      this.toQuestionPage()
+      this.$router.replace({ name: 'q1' })
+    }
+
     Request.get('/wx/selfTest/visit')
     this.initPage()
     // this.initShare()
   },
   methods: {
+    async toQuestionPage () {
+      await this.$store.dispatch('generateDefaultQuestionQueue')
+    },
     createShareUrl () {
       const curr = location.href
 
