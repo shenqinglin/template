@@ -66,10 +66,9 @@ export default {
           signature: data.signature, // 必填，签名
           jsApiList: [ // 用的方法都要加进来
             'updateAppMessageShareData',
-            'updateTimelineShareData',
-            'onMenuShareTimeline',
-            'onMenuShareAppMessage',
-            'onMenuShareQQ'
+            'updateTimelineShareData'
+            // 'onMenuShareTimeline',
+            // 'onMenuShareAppMessage',
           ]
 
         })
@@ -80,15 +79,15 @@ export default {
           const shareTitle = '新冠肺炎居家自测工具'
           // const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
           const sharePic = ''
-          wx.onMenuShareTimeline({
-            title: shareTitle,
-            link: shareLink,
-            desc: 'test',
-            imgUrl: encodeURI(sharePic),
-            success: function (res) {
-              // _this.sharePicVisible = false
-            }
-          })
+          // wx.onMenuShareTimeline({
+          //   title: shareTitle,
+          //   link: shareLink,
+          //   desc: 'test',
+          //   imgUrl: encodeURI(sharePic),
+          //   success: function (res) {
+          //     // _this.sharePicVisible = false
+          //   }
+          // })
           wx.updateTimelineShareData({
             title: shareTitle, // 分享标题
             link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
@@ -102,18 +101,18 @@ export default {
           })
 
           // 分享给朋友
-          wx.onMenuShareAppMessage({
-            title: shareTitle,
-            desc: 'asdasd',
-            link: shareLink,
-            imgUrl: encodeURI(sharePic),
-            type: '', // 不填默认时link
-            dataUrl: '', // 默认空
-            success: function () {
-              alert(11111111)
-              // _this.sharePicVisible = false
-            }
-          })
+          // wx.onMenuShareAppMessage({
+          //   title: shareTitle,
+          //   desc: 'asdasd',
+          //   link: shareLink,
+          //   imgUrl: encodeURI(sharePic),
+          //   type: '', // 不填默认时link
+          //   dataUrl: '', // 默认空
+          //   success: function () {
+          //     alert(11111111)
+          //     // _this.sharePicVisible = false
+          //   }
+          // })
           // 分享给朋友 及 QQ
           wx.updateAppMessageShareData({
             title: sharePic,
