@@ -140,16 +140,16 @@ export default {
     },
     calcResult () {
       let result = -1
-      const q1 = Object.keys(this.answer[1])
-      const q12 = Object.keys(this.answer[12])
-      if (q1.indexOf('L') === -1) {
-        if (q12.indexOf('E') === -1) {
+      const q3 = Object.keys(this.answer[3])
+      const q15 = Object.keys(this.answer[15])
+      if (q3.indexOf('L') === -1) {
+        if (q15.indexOf('E') === -1) {
           result = 1
         } else {
           result = 2
         }
       } else {
-        if (q12.indexOf('E') === -1) {
+        if (q15.indexOf('E') === -1) {
           result = 3
         } else {
           result = 4

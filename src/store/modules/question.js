@@ -36,7 +36,7 @@ const mutations = {
     Session.set('__currentIndex', payload)
   },
   SET_ANSWER: (state, payload) => {
-    state.answer[state.currentIndex + 1] = payload
+    state.answer[state.queue[state.currentIndex]] = payload
     Session.set('__answer', { ...state.answer })
   },
   RESET: () => {
