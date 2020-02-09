@@ -2,26 +2,25 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        发热后有没有吃退热药？
+        到目前为止，最高体温是多少？
       </template>
       <div class="answer-wrapper">
-        <div
-          v-for="(item, index) in list"
-          :key="index"
-          class="answer"
-          :class="{
-            mt50: index > 0,
-            selected: selectedAnswer === item.value,
-            around: selectedAnswer === item.value
-          }"
-          @click="handleItemClick(item, index)"
-        >
-          <span class="answer-text">{{ item.text }}</span>
-          <v-icon
-            v-show="selectedAnswer === item.value"
-            class="icon"
-            name="checked"
-          />
+        <div class="answer">
+          {{ temp | number }}
+        </div>
+        <van-slider
+          v-model="temp"
+          :min="37.3"
+          :max="42"
+          :step="0.1"
+          active-color="#53B9F5"
+          inactive-color="#eee"
+          bar-height="0.08rem"
+          button-size="0.45333rem"
+        />
+        <div class="desc-wrapper">
+          <div>37.3℃</div>
+          <div>42℃</div>
         </div>
       </div>
     </main-container>
@@ -55,28 +54,32 @@
 import { mapGetters } from 'vuex'
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
-import { Session } from '@/utils/storage'
 
 export default {
   components: {
     MainContainer,
     VIcon
   },
+  filters: {
+    number (value) {
+      return `${value.toFixed(1)}℃`
+    }
+  },
   data () {
     return {
       list: Object.freeze([
         {
           value: 'A',
-          text: '有吃退热药'
+          text: '<37.3℃'
         },
         {
           value: 'B',
-          text: '没有吃退热药'
+          text: '≥37.3℃'
         }
       ]),
-      selectedAnswer: null,
+      temp: 37.3,
       state: {
-        toNext: false
+        toNext: true
       }
     }
   },
@@ -84,47 +87,20 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[5] || null
-    this.changeNextBtnStatus()
+    this.temp = this.answer[this.currentIndex + 1] || 37.3
   },
   methods: {
-    handleItemClick (data) {
-      const { value } = data
-      this.selectedAnswer = value
-      this.changeNextBtnStatus()
-    },
-    changeNextBtnStatus () {
-      this.state.toNext = this.selectedAnswer !== null
-    },
     handleToNext () {
-      if (!this.selectedAnswer) {
-        return
-      }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 5,
-        answer: this.selectedAnswer
-      })
-      this.$store.commit('SET_QUEUE', Session.get('__queue'))
-      const { queue } = this
-      // 选B 跳过第6题
-      if (this.selectedAnswer === 'B') {
-        queue.splice(this.currentIndex + 1, 1)
-      }
+      this.$store.commit('SET_ANSWER', this.temp)
       const index = this.currentIndex + 1
-      if (index === queue.length) {
-        // GOTO Result
-      } else {
-        this.$router.replace({ name: `q${queue[index]}` })
-        this.$store.commit('SET_INDEX', index)
-      }
+
+      this.$router.replace({ name: `q${this.queue[index]}` })
+      this.$store.commit('SET_INDEX', index)
     },
     handleToLast () {
+      this.$store.commit('SET_ANSWER', 37.3)
       const index = this.currentIndex - 1
       this.$store.commit('SET_INDEX', index)
-      this.$store.commit('SET_ANSWER', {
-        qNo: 5,
-        answer: ''
-      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {
@@ -138,16 +114,20 @@ export default {
 <style lang="less" scoped>
   .answer-wrapper {
     transition: all 0.2s ease;
-    padding-top: 80px;
+    padding-top: 60px;
     .answer {
-      width: 565px;
+      width: 250px;
       height: 84px;
       background: rgba(83,185,245,0.04);
       border-radius: 10px;
-      font-size:30px;
-      font-weight:400;
+      font-size: 40px;
+      font-weight: 500;
       justify-content: space-around;
       color:rgba(51,51,51,1);
+      margin: 0 auto;
+      line-height: 84px;
+      text-align: center;
+      margin-bottom: 100px;
 
       &.selected {
         background: rgba(83,185,245,0.14);
@@ -211,5 +191,14 @@ export default {
   .right {
     float: right;
   }
+}
+
+.desc-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  font-size: 24px;
+  font-weight: 400;
+  color: #333;
 }
 </style>

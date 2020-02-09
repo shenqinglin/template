@@ -2,7 +2,7 @@
   <div>
     <main-container type="small">
       <template slot="title">
-        目前体温是多少？
+        请选择您的年龄？
       </template>
       <div class="answer-wrapper">
         <div
@@ -66,11 +66,15 @@ export default {
       list: Object.freeze([
         {
           value: 'A',
-          text: '<37.3℃'
+          text: '12岁及以下'
         },
         {
           value: 'B',
-          text: '≥37.3℃'
+          text: '13岁-59岁'
+        },
+        {
+          value: 'C',
+          text: '60岁及以上'
         }
       ]),
       selectedAnswer: null,
@@ -83,7 +87,7 @@ export default {
     ...mapGetters(['currentIndex', 'queue', 'answer'])
   },
   mounted () {
-    this.selectedAnswer = this.answer[2] || null
+    this.selectedAnswer = this.answer[this.currentIndex + 1] || null
     this.changeNextBtnStatus()
   },
   methods: {
@@ -99,22 +103,15 @@ export default {
       if (!this.selectedAnswer) {
         return
       }
-      this.$store.commit('SET_ANSWER', {
-        qNo: 2,
-        answer: this.selectedAnswer
-      })
+      this.$store.commit('SET_ANSWER', this.selectedAnswer)
       const index = this.currentIndex + 1
-      this.$router.replace({ name: `q${this.queue[index]}` })
       this.$store.commit('SET_INDEX', index)
+      this.$router.replace({ name: `q${this.queue[index]}` })
     },
     handleToLast () {
       const index = this.currentIndex - 1
+      this.$store.commit('SET_ANSWER', null)
       this.$store.commit('SET_INDEX', index)
-      // 返回上一步删除当前answer
-      this.$store.commit('SET_ANSWER', {
-        qNo: 2,
-        answer: ''
-      })
       if (index === -1) {
         this.$router.replace({ name: 'q1' })
       } else {
@@ -128,7 +125,7 @@ export default {
 <style lang="less" scoped>
   .answer-wrapper {
     transition: all 0.2s ease;
-    padding-top: 80px;
+    padding-top: 60px;
     .answer {
       width: 565px;
       height: 84px;

@@ -29,7 +29,6 @@
  */
 import router from '@/router'
 import axios from 'axios'
-import store from '@/store'
 import { Local } from '@/utils/storage'
 import { Toast } from 'vant'
 import { stringify } from 'querystring'
@@ -192,8 +191,6 @@ const fetch = options => {
 // response 拦截
 instance.interceptors.response.use(
   response => {
-    // 关闭loading提示
-    store.dispatch('app/hideLoading')
     return response.data
   },
   error => {
