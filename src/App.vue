@@ -52,11 +52,68 @@ export default {
     async toQuestionPage () {
       await this.$store.dispatch('generateDefaultQuestionQueue')
     },
+    createShareUrl () {
+      const curr = location.href
+
+      if (curr.indexOf('?') > -1) {
+        return curr + '&share=true'
+      } else {
+        return curr + '?share=true'
+      }
+
+      // const arr = curr.split('?')
+      // return arr[0]
+    },
     initPage () {
       if (this.flagFirst) {
         this.initShare()
+        // this.weixinJSBridgeShare()
         this.flagFirst = false
       }
+    },
+    weixinJSBridgeShare () {
+      const url = window.location.href
+      const options = {
+        imgUrl: 'https://image.carelink.cn/carelink2/hospital/portrait/ANKUluZJlnmh9982235514181DBD62C2.jpg',
+        lineLink: window.location.href,
+        descContent: '测试描述',
+        shareTitle: '测试标题'
+      }
+      Request.get('/wx/wechat/config', { data: { url }}).then(data => {
+        window.WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+          this.shareFriend(data, options)
+        })
+        // 分享到朋友圈
+        window.WeixinJSBridge.on('menu:share:timeline', function (argv) {
+          this.shareTimeline(data, options)
+        })
+      })
+    },
+    shareFriend (data, options) {
+      window.WeixinJSBridge.invoke('sendAppMessage', {
+        'appid': data.appid,
+        'img_url': options.imgUrl,
+        'img_width': '200',
+        'img_height': '200',
+        'link': options.lineLink,
+        'desc': options.descContent,
+        'title': options.shareTitle
+      }, function (res) {
+
+      })
+    },
+    shareTimeline (data, options) {
+      window.WeixinJSBridge.invoke('shareTimeline', {
+        'img_url': options.imgUrl,
+        'img_width': '200',
+        'img_height': '200',
+        'link': options.lineLink,
+        'desc': options.descContent,
+        'title': options.shareTitle
+      }, function (res) {
+        // _report('timeline', res.err_msg); // 这是回调函数，必须注释掉
+
+      })
     },
     initShare () {
       const _this = this
@@ -64,7 +121,8 @@ export default {
         return
       }
       // const url = location.origin + location.pathname
-      const url = location.href + '&share=true'
+      // const url = location.href + '&share=true'
+      const url = encodeURI(this.createShareUrl())
       // const shareLink = location.origin + '/activity/q1'
       Request.get('/wx/wechat/config', { data: { url }}).then(data => {
         console.log(data)
@@ -88,9 +146,12 @@ export default {
         wx.ready(function () {
           // 分享到朋友圈
           // const shareLink = location.origin + '/activity/q1'
-          const shareLink = location.href + '&share=true'
+          // const shareLink = location.href + '&share=true'
+          console.log('12345ready')
+          // alert('ready')
+          const shareLink = encodeURI(this.createShareUrl())
           const shareTitle = '新冠肺炎居家自测工具'
-          const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
+          const sharePic = 'http://beta2.le1.cm.cn/2020/02/7827381961356514.png'
           // const sharePic = ''
           // wx.onMenuShareTimeline({
           //   title: shareTitle,
