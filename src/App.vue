@@ -140,7 +140,7 @@ export default {
 
         })
         window.wx.ready(function () {
-          console.log('chenggong')
+          console.log('chenggong', window.wx)
           console.log('12345ready')
           const shareLink = this.createShareUrl()
           const shareTitle = '新冠肺炎居家自测工具'
@@ -163,13 +163,10 @@ export default {
             link: shareLink,
             imgUrl: encodeURI(sharePic),
             success: function () {
-              alert(11111111)
+              console.log('123')
               // _this.sharePicVisible = false
             }
           })
-        })
-        window.wx.ereor(function (res) {
-          console.log('erroroerrerrerr')
         })
       }).then(data => {
         console.log('data -> ready')
