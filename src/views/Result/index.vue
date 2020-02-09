@@ -184,18 +184,21 @@ export default {
         })
         wx.ready(function () {
           // 分享到朋友圈
+          const shareLink = location.origin + '/activity/q1'
+          const shareTitle = '新冠肺炎居家自测工具'
+          const sharePic = 'http://web1.bj1/user/2020/02/7827381961356514.png'
           wx.onMenuShareTimeline({
-            title: 'test',
-            link: 'www.baid.com',
-            imgUrl: '',
+            title: shareTitle,
+            link: shareLink,
+            imgUrl: encodeURI(sharePic),
             success: function (res) {
 
             }
           })
           wx.updateTimelineShareData({
-            title: 'asdasdf', // 分享标题
-            link: 'asd', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: 'rl', // 分享图标
+            title: shareTitle, // 分享标题
+            link: shareLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: encodeURI(sharePic), // 分享图标
             success: function () {
               // 设置成功
               console.log('分享到朋友圈成功返回的信息为:')
@@ -204,9 +207,10 @@ export default {
 
           // 分享给朋友
           wx.onMenuShareAppMessage({
-            title: 'qweqwe',
+            title: shareTitle,
             desc: 'asdasd',
-            link: 'www.baidu.com',
+            link: shareLink,
+            imgUrl: encodeURI(sharePic),
             type: '', // 不填默认时link
             dataUrl: '', // 默认空
             success: function () {
@@ -215,10 +219,10 @@ export default {
           })
           // 分享给朋友 及 QQ
           wx.updateAppMessageShareData({
-            title: 'title',
-            desc: '秒数',
-            link: 'www.baidu.com',
-            imgUrl: encodeURI('http://www.baidu.com')
+            title: sharePic,
+            desc: 'asd',
+            link: shareLink,
+            imgUrl: encodeURI(sharePic)
           })
         })
       })
