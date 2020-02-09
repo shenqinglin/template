@@ -190,7 +190,6 @@ export default {
             'updateTimelineShareData',
             'onMenuShareTimeline',
             'onMenuShareAppMessage',
-            'onMenuShareAppMessage',
             'onMenuShareQQ'
           ]
 
