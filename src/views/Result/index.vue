@@ -18,7 +18,6 @@
         </div>
         <div
           class="result-tips"
-          :style="resultStyle"
         >
           {{ resultTips }}
         </div>
@@ -219,6 +218,7 @@ export default {
         line-height: 92px;
         font-size: 34px;
         text-align: center;
+        font-weight: bold;
       }
     }
     .result-img-tips {
@@ -236,6 +236,7 @@ export default {
       .result-tips {
         font-size: 28px;
         margin-top: 26px;
+        color: #333;
       }
     }
     .btn-wp {
