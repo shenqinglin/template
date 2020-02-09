@@ -170,7 +170,7 @@ export default {
         console.log(data)
         wx.config({
           debug: true,
-          appId: data.appid,
+          appId: data.appId,
           timestamp: data.timestamp, // 必填，生成签名的时间戳
           nonceStr: data.nonceStr, // 必填，生成签名的随机串
           signature: data.signature, // 必填，签名
