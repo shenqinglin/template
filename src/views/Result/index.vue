@@ -71,7 +71,7 @@
 import FooterTip from '@/components/FooterTip'
 const backgroundImg = require('@/assests/img/bg.png')
 const shareImgWeixin = require('@/assests/img/share.png')
-const shareImgNoWeixin = require('@/assests/img/no-weixin-share.png')
+const shareImgNoWeixin = require('@/assests/img/no-weixin-share2.png')
 // import Request from '@/utils/request'
 
 // console.log(wx)
