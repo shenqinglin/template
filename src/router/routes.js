@@ -16,6 +16,7 @@ import Question12 from '@/views/Question12'
 import Question13 from '@/views/Question13'
 import Question14 from '@/views/Question14'
 import Question15 from '@/views/Question15'
+import Model from '@/views/Model'
 import Hot from '@/views/Hot'
 
 export default [
@@ -116,5 +117,10 @@ export default [
     path: '/index',
     name: 'index',
     component: Index
+  },
+  {
+    path: '/model',
+    name: 'model',
+    component: Model
   }
 ]

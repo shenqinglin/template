@@ -41,7 +41,7 @@ export default {
   mounted () {
     if (this.queue.length === 0) {
       this.toQuestionPage()
-      this.$router.replace({ name: 'index' })
+      // this.$router.replace({ name: 'index' })
     }
 
     Request.get('/wx/selfTest/visit')
