@@ -4,14 +4,14 @@
       {{ questionList.title }}
     </div>
     <main-container
-      type="small"
+      :type="currentQs.height"
     >
       <template slot="title">
         {{ currentQs.question }}
       </template>
       <div
         v-if="currentQs.type==='select'"
-        class="answer-wrapper"
+        :class="currentQs.answer.length>3?'answer-wrapper more':'answer-wrapper'"
       >
         <div
           v-for="(item, index) in currentQs.answer"
@@ -95,9 +95,17 @@
   </div>
 </template>
 <script>
+/*
+* 1、目前只支持单选、多选、滑动
+* 2、答题顺序逻辑：目标实现方式（原题库1-7，现答题顺序1、5、6、7），var newObj = 原题库.slice
+* 3、答案数量较多，现在设置的是大于3个，展示分左右两块，添加类名more
+* 4、答题结果页自定义(用的时候按需求做)
+* 5、上一题下一题逻辑按照分页逻辑处理
+* 6、缺少以上均无选项
+*/
 import MainContainer from '@/components/MainContainer'
 import VIcon from '@/components/VIcon'
-import { qsJson } from '@/config/question'
+import { qsJson, sliceQsJson } from '@/config/question'
 import Request from '@/utils/request'
 export default {
   components: {
@@ -137,18 +145,23 @@ export default {
     }
   },
   mounted () {
-
+    // 默认答题顺序
+    const defaultQs = [1, 2, 3, 4]
+    this.questionList = sliceQsJson(defaultQs)
   },
   methods: {
     handleItemClick (data) {
       const { value } = data
+      // 多选题
       if (this.currentQs.method === 'Multiple') {
         if (this.selectedAnswer[value]) {
+          // 已选择，再次点击为清除操作
           this.$delete(this.selectedAnswer, value)
         } else {
           this.$set(this.selectedAnswer, value, value)
         }
       } else if (this.currentQs.method === 'Single') {
+        // 单选题，先重置当前答案为空，再设置
         this.selectedAnswer = {}
         this.$set(this.selectedAnswer, value, value)
       }
@@ -162,31 +175,45 @@ export default {
         this.selectedAnswer = {}
       }
     },
-    handleToPrev () {
+    handleToPrev () { // 上一题
+      // 题目-1
       this.currentIndex--
+      // 删除上一题的答案
       delete this.result[this.currentIndex + 2]
+      // 当前题目是第一题
       if (this.currentIndex <= 0) {
+        // 上一题按钮置灰
         this.state.toPrev = false
+        // 当前index = 0
         this.currentIndex = 0
+        // 当前题目默认选中已选值
         this.defaultSelect()
         return
       }
       this.state.toNext = true
       this.defaultSelect()
     },
-    handleToNext () {
+    handleToNext () { // 下一题
+      // 如果state.toNext为false且当前问题没有选择答案，不可点击下一步
+      if (!this.state.toNext || Object.keys(this.selectedAnswer).length === 0) {
+        return
+      }
+      // 记录当前index的答案
       this.result[this.currentIndex + 1] = this.selectedAnswer
+      // 题目+1
       this.currentIndex++
+      // 上一题按钮可点
       this.state.toPrev = true
+      // 重置当前题目答案位初始值
       this.defaultSelect()
     },
     handleSubmit () {
+      // 最后一题提交时，验证当前题目是否已选择
       if (Object.keys(this.selectedAnswer).length === 0) {
         return
       }
       Request.post('/wx/selfTest/submit', {
         data: {
-          content: JSON.stringify({ ...this.answer }),
           result: this.result
         }
       })
@@ -250,6 +277,19 @@ export default {
     }
     .mt50 {
       margin-top: 50px;
+    }
+    &.more{
+      padding-top: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .answer {
+        width: 240px;
+        margin-bottom: 20px;
+      }
+      .mt50{
+        margin-top: 0;
+      }
     }
   }
   .no-one {
