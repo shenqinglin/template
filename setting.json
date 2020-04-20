@@ -1,0 +1,58 @@
+{
+    "workbench.colorTheme": "Andromeda Colorizer",
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 0,
+    "editor.fontWeight": "600",
+    "editor.fontSize": 16,
+    "editor.tabSize": 2,
+    "path-intellisense.mappings": {
+        "@": "${workspaceRoot}/src"
+    },
+    "todohighlight.include": [
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.html",
+        "**/*.php",
+        "**/*.css",
+        "**/*.scss",
+        "**/*.vue"
+    ],
+    "todohighlight.keywords": [
+        "NOTE:"
+    ],
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "vue-html",
+        {
+            "language": "html",
+            "autoFix": true
+        },
+        {
+            "language": "vue",
+            "autoFix": true
+        }
+    ],
+    "vetur.format.defaultFormatterOptions": {
+        "prettier": {
+            "printWidth": 100,
+            "singleQuote": true,
+            "wrapAttributes": false,
+            "sortAttributes": true,
+            "tabWidth": 2
+        }
+    },
+    "cSpell.userWords": [
+        "rgba",
+        "vuex"
+    ],
+    "bracket-pair-colorizer-2.showBracketsInGutter": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "vim.useCtrlKeys": false,
+    "git.autofetch": true
+}
